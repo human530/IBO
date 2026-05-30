@@ -57,6 +57,8 @@ const MEDAL_COLOR: Record<string, string> = {
 export default function Exam() {
   const [params] = useSearchParams();
   const initialAdaptive = params.get('mode') === 'adaptive';
+  const initialCamp = params.get('camp') === '1';
+  const initialIbo = initialCamp || params.get('style') === 'ibo';
 
   const sessions = useStore((s) => s.sessions);
   const addSession = useStore((s) => s.addSession);
@@ -65,14 +67,14 @@ export default function Exam() {
   const attempts = useMemo(() => sessions.flatMap((s) => s.attempts), [sessions]);
 
   const [phase, setPhase] = useState<Phase>('config');
-  const [round, setRound] = useState<Round>('preliminary');
+  const [round, setRound] = useState<Round>(initialCamp ? 'semifinal' : 'preliminary');
   const [mode, setMode] = useState<SessionMode>(initialAdaptive ? 'adaptive' : 'mock');
-  const [paperStyle, setPaperStyle] = useState<'general' | 'ibo'>('general');
+  const [paperStyle, setPaperStyle] = useState<'general' | 'ibo'>(initialIbo ? 'ibo' : 'general');
   const [inputMode, setInputMode] = useState<InputMode>('select');
   const [timed, setTimed] = useState(true);
   const [selectedDomains, setSelectedDomains] = useState<DomainId[]>([]);
-  const [count, setCount] = useState(8);
-  const [includeVariants, setIncludeVariants] = useState(false);
+  const [count, setCount] = useState(initialCamp ? 10 : 8);
+  const [includeVariants, setIncludeVariants] = useState(initialCamp);
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [sessionId, setSessionId] = useState('');

@@ -118,6 +118,36 @@ export const READING_LIST: BookRef[] = [
     level: '進階',
   },
   {
+    title: "Vander's Human Physiology",
+    zh: '人體生理學',
+    use: '機制導向，理解神經、循環、呼吸、腎臟、內分泌的調控與回饋首選。',
+    level: '進階',
+  },
+  {
+    title: 'Janeway / Kuby Immunology',
+    zh: '免疫學',
+    use: '免疫辨識與機制最完整，補足 Campbell 不足之處。',
+    level: '進階',
+  },
+  {
+    title: '植物生理學（Taiz & Zeiger）',
+    zh: '植物生理學',
+    use: '光合、運輸、激素訊息系統化，植物題加深。',
+    level: '進階',
+  },
+  {
+    title: '基礎遺傳學',
+    zh: '基礎遺傳學',
+    use: '遺傳分析題型(連鎖、三點測交、卡方)扎實。',
+    level: '進階',
+  },
+  {
+    title: '陳佳芬 生物學三部曲',
+    zh: '中文奧林匹亞綜整',
+    use: '中文系統綜整，擅長把難題拆解成易懂原理，適合搭配複習。',
+    level: '進階',
+  },
+  {
     title: 'Practical Skills in Biomolecular Science (Reed)',
     zh: '生物分子科學實作技能',
     use: '為實作測驗打底：技術、計算與數據分析。',
