@@ -3,21 +3,22 @@ import { timeUntil } from '../lib/countdown';
 
 interface Props {
   title: string;
+  emoji?: string;
   targetIso: string;
 }
 
 function Unit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <span className="tabular-nums text-2xl md:text-3xl font-bold text-white">
+      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 font-display text-xl font-bold tabular-nums text-brand-600 md:h-14 md:w-14 md:text-2xl">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-[10px] text-slate-400">{label}</span>
+      <span className="mt-1 text-[10px] text-ink-soft">{label}</span>
     </div>
   );
 }
 
-export default function CountdownCard({ title, targetIso }: Props) {
+export default function CountdownCard({ title, emoji = '⏳', targetIso }: Props) {
   const [cd, setCd] = useState(() => timeUntil(targetIso));
 
   useEffect(() => {
@@ -35,19 +36,22 @@ export default function CountdownCard({ title, targetIso }: Props) {
   return (
     <div className="card">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold">{title}</h3>
-        <span className="text-xs text-slate-400">{dateStr}</span>
+        <h3 className="flex items-center gap-2 font-display font-bold text-ink">
+          <span>{emoji}</span>
+          {title}
+        </h3>
+        <span className="text-xs text-ink-soft">{dateStr}</span>
       </div>
       {cd.past ? (
-        <p className="mt-3 text-sm text-amber-400">已過考試日期，請至設定更新日期。</p>
+        <p className="mt-3 text-sm text-brand-500">已過考試日期，請至設定更新日期 🗓️</p>
       ) : (
-        <div className="mt-4 flex items-center justify-between gap-2">
+        <div className="mt-4 flex items-center justify-between gap-1">
           <Unit value={cd.days} label="天" />
-          <span className="text-slate-600">:</span>
+          <span className="text-brand-200">:</span>
           <Unit value={cd.hours} label="時" />
-          <span className="text-slate-600">:</span>
+          <span className="text-brand-200">:</span>
           <Unit value={cd.minutes} label="分" />
-          <span className="text-slate-600">:</span>
+          <span className="text-brand-200">:</span>
           <Unit value={cd.seconds} label="秒" />
         </div>
       )}

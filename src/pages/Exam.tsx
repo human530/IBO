@@ -46,7 +46,7 @@ type Phase = 'config' | 'running' | 'result';
 const PER_QUESTION_SEC: Record<Round, number> = { preliminary: 90, semifinal: 120 };
 
 const MEDAL_COLOR: Record<string, string> = {
-  gold: '#fbbf24',
+  gold: '#e3b341',
   silver: '#cbd5e1',
   bronze: '#d97706',
   none: '#64748b',
@@ -195,8 +195,8 @@ export default function Exam() {
     return (
       <div className="flex flex-col gap-6">
         <div>
-          <h1 className="text-2xl font-bold">模擬測驗設定</h1>
-          <p className="text-sm text-slate-400">
+          <h1 className="font-display text-2xl font-bold">模擬測驗設定</h1>
+          <p className="text-sm text-ink-soft">
             依初賽／複賽情境配題，採用生物奧林匹亞官方計分（部分給分），作答後即時解析並分析分數落點。
           </p>
         </div>
@@ -234,7 +234,7 @@ export default function Exam() {
               </button>
             </div>
             {mode === 'adaptive' && (
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-ink-soft">
                 自適應出題：依你的歷史表現，加重弱點領域與未練習過的題目。
               </p>
             )}
@@ -257,7 +257,7 @@ export default function Exam() {
               </button>
             </div>
             {inputMode === 'handwriting' && (
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-ink-soft">
                 手寫模式提供作答畫布（像平板寫考卷），仍以官方算法依你點選的最終選項計分。
               </p>
             )}
@@ -273,14 +273,14 @@ export default function Exam() {
             />
           </label>
           {timed && (
-            <p className="-mt-3 text-xs text-slate-400">
+            <p className="-mt-3 text-xs text-ink-soft">
               每題 {PER_QUESTION_SEC[round]} 秒，共約 {Math.round((count * PER_QUESTION_SEC[round]) / 60)} 分鐘，時間到自動交卷。
             </p>
           )}
 
           <div>
             <div className="mb-2 text-sm font-medium">
-              領域 <span className="text-slate-500">(不選＝全部，依官方權重配題)</span>
+              領域 <span className="text-ink-faint">(不選＝全部，依官方權重配題)</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {DOMAINS.map((d) => (
@@ -291,7 +291,7 @@ export default function Exam() {
                   style={{
                     borderColor: d.color,
                     backgroundColor: selectedDomains.includes(d.id) ? d.color : 'transparent',
-                    color: selectedDomains.includes(d.id) ? '#0b1f1a' : d.color,
+                    color: selectedDomains.includes(d.id) ? '#fff' : d.color,
                   }}
                 >
                   {d.name}
@@ -340,15 +340,15 @@ export default function Exam() {
     return (
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-slate-400">
+          <span className="text-ink-soft">
             進度 {current + 1} / {questions.length}
           </span>
           <div className="flex items-center gap-3">
-            <span className="text-slate-400">已作答 {answeredCount}</span>
+            <span className="text-ink-soft">已作答 {answeredCount}</span>
             <ExamTimer startedAt={startedAt} durationSec={durationSec} onExpire={finalizeOnExpire} />
           </div>
         </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-700">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-brand-50">
           <div
             className="h-full bg-brand-500 transition-all"
             style={{ width: `${((current + 1) / questions.length) * 100}%` }}
@@ -419,12 +419,12 @@ export default function Exam() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">測驗結果</h1>
+      <h1 className="font-display text-2xl font-bold">測驗結果</h1>
 
       {/* Official score + time */}
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="card text-center">
-          <div className="text-sm text-slate-400">官方得分率</div>
+          <div className="text-sm text-ink-soft">官方得分率</div>
           <div
             className={`text-5xl font-bold tabular-nums ${
               percentage >= 70 ? 'text-brand-400' : percentage >= 50 ? 'text-amber-400' : 'text-rose-400'
@@ -432,21 +432,21 @@ export default function Exam() {
           >
             {percentage}%
           </div>
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-ink-soft">
             得分 {rawScore.toFixed(2)} / {maxScore}（全對 {fullyCorrect} 題）
           </div>
         </div>
         <div className="card text-center">
-          <div className="text-sm text-slate-400">作答時間</div>
-          <div className="text-5xl font-bold tabular-nums text-slate-100">
+          <div className="text-sm text-ink-soft">作答時間</div>
+          <div className="text-5xl font-bold tabular-nums text-ink">
             {formatDuration(totalTime)}
           </div>
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-ink-soft">
             平均 {sessAttempts.length ? Math.round(totalTime / sessAttempts.length) : 0} 秒 / 題
           </div>
         </div>
         <div className="card text-center">
-          <div className="text-sm text-slate-400">模擬獎牌</div>
+          <div className="text-sm text-ink-soft">模擬獎牌</div>
           <div className="text-5xl font-bold" style={{ color: medalColor }}>
             {placement.medal === 'gold'
               ? '🥇'
@@ -478,52 +478,52 @@ export default function Exam() {
         </div>
         <div className="mt-3 grid grid-cols-3 gap-3 text-center">
           <div>
-            <div className="text-2xl font-bold tabular-nums text-brand-400">
+            <div className="font-display text-2xl font-bold tabular-nums text-brand-400">
               {placement.percentile}%
             </div>
-            <div className="text-xs text-slate-400">百分位 (PR)</div>
+            <div className="text-xs text-ink-soft">百分位 (PR)</div>
           </div>
           <div>
-            <div className="text-2xl font-bold tabular-nums text-slate-100">
+            <div className="font-display text-2xl font-bold tabular-nums text-ink">
               {placement.rank}
             </div>
-            <div className="text-xs text-slate-400">
+            <div className="text-xs text-ink-soft">
               模擬排名 / {placement.cohortSize} 人
             </div>
           </div>
           <div>
-            <div className="text-2xl font-bold tabular-nums text-slate-100">
+            <div className="font-display text-2xl font-bold tabular-nums text-ink">
               {Math.round(placement.topFraction * 100)}%
             </div>
-            <div className="text-xs text-slate-400">勝過你的比例</div>
+            <div className="text-xs text-ink-soft">勝過你的比例</div>
           </div>
         </div>
 
         <div className="mt-5 h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dist}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#dbe7f2" />
               <XAxis dataKey="bin" stroke="#94a3b8" fontSize={10} interval={1} />
               <YAxis stroke="#94a3b8" fontSize={10} allowDecimals={false} />
               <Tooltip
-                contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 12 }}
+                contentStyle={{ background: '#ffffff', border: '1px solid #cfe2f2', borderRadius: 16, color: '#324155' }}
                 labelFormatter={(l) => `分數 ${l}–${Number(l) + 5}%`}
               />
               <ReferenceLine
                 x={`${Math.min(95, Math.floor(percentage / 5) * 5)}`}
-                stroke="#fbbf24"
+                stroke="#ef9d6b"
                 strokeWidth={2}
-                label={{ value: '你', fill: '#fbbf24', fontSize: 11, position: 'top' }}
+                label={{ value: '你', fill: '#ef9d6b', fontSize: 11, position: 'top' }}
               />
               <Bar dataKey="人數">
                 {dist.map((d, i) => (
-                  <Cell key={i} fill={d.isUser ? '#fbbf24' : '#64748b'} />
+                  <Cell key={i} fill={d.isUser ? '#ef9d6b' : '#d8d3c0'} />
                 ))}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <p className="mt-1 text-center text-xs text-slate-500">
+        <p className="mt-1 text-center text-xs text-ink-faint">
           落點以該階段參賽者成績分布推估（金牌前 10%、銀牌前 30%、銅牌前 60%）。
         </p>
       </div>
@@ -537,13 +537,13 @@ export default function Exam() {
               <span className="w-28">
                 <DomainBadge domain={d} />
               </span>
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-700">
+              <div className="h-2 flex-1 overflow-hidden rounded-full bg-brand-50">
                 <div
                   className="h-full rounded-full bg-brand-500"
                   style={{ width: `${(v.score / v.t) * 100}%` }}
                 />
               </div>
-              <span className="w-16 text-right text-slate-400">
+              <span className="w-16 text-right text-ink-soft">
                 {v.score.toFixed(1)}/{v.t}
               </span>
             </div>

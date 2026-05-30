@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { DomainId, Round } from '../types';
-import { DOMAINS } from '../data/domains';
+import { DOMAINS, DOMAIN_MAP } from '../data/domains';
 import { QUESTIONS } from '../data/questions';
 import QuestionView from '../components/QuestionView';
 
@@ -26,22 +26,26 @@ export default function Bank() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h1 className="text-2xl font-bold">題庫瀏覽</h1>
-        <p className="text-sm text-slate-400">共 {QUESTIONS.length} 題，可依領域、階段、關鍵字篩選並查看詳解。</p>
+        <h1 className="font-display text-2xl font-bold text-ink">題庫瀏覽 📚</h1>
+        <p className="text-sm text-ink-soft">
+          共 {QUESTIONS.length} 題，可依領域、階段、關鍵字篩選並查看詳解。
+        </p>
       </div>
 
       <div className="card flex flex-col gap-3">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="搜尋題幹、考點或概念…"
-          className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm outline-none focus:border-brand-500"
+          placeholder="🔍 搜尋題幹、考點或概念…"
+          className="field"
         />
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setDomain('all')}
-            className={`pill border border-slate-600 ${
-              domain === 'all' ? 'bg-slate-200 text-slate-900' : 'text-slate-300'
+            className={`pill border ${
+              domain === 'all'
+                ? 'border-brand-400 bg-brand-400 text-white'
+                : 'border-brand-100 text-ink-soft'
             }`}
           >
             全部領域
@@ -50,14 +54,14 @@ export default function Bank() {
             <button
               key={d.id}
               onClick={() => setDomain(d.id)}
-              className="pill border"
+              className="pill gap-1 border"
               style={{
                 borderColor: d.color,
                 backgroundColor: domain === d.id ? d.color : 'transparent',
-                color: domain === d.id ? '#0b1f1a' : d.color,
+                color: domain === d.id ? '#fff' : d.color,
               }}
             >
-              {d.name}
+              {d.emoji} {d.name}
             </button>
           ))}
         </div>
@@ -66,8 +70,10 @@ export default function Bank() {
             <button
               key={r}
               onClick={() => setRound(r)}
-              className={`pill border border-slate-600 ${
-                round === r ? 'bg-slate-200 text-slate-900' : 'text-slate-300'
+              className={`pill border ${
+                round === r
+                  ? 'border-brand-400 bg-brand-400 text-white'
+                  : 'border-brand-100 text-ink-soft'
               }`}
             >
               {r === 'all' ? '全部階段' : r === 'preliminary' ? '初賽' : '複賽'}
@@ -76,7 +82,7 @@ export default function Bank() {
         </div>
       </div>
 
-      <div className="text-sm text-slate-400">符合 {filtered.length} 題</div>
+      <div className="text-sm text-ink-soft">符合 {filtered.length} 題</div>
 
       <div className="flex flex-col gap-3">
         {filtered.map((q) =>
@@ -85,7 +91,7 @@ export default function Bank() {
               <QuestionView question={q} selected={q.answer} onSelect={() => {}} revealed />
               <button
                 onClick={() => setOpenId(null)}
-                className="mt-2 text-xs text-slate-400 hover:underline"
+                className="mt-2 text-xs font-semibold text-ink-soft hover:underline"
               >
                 收合 ▲
               </button>
@@ -94,23 +100,23 @@ export default function Bank() {
             <button
               key={q.id}
               onClick={() => setOpenId(q.id)}
-              className="card text-left hover:border-brand-600"
+              className="card text-left transition hover:-translate-y-0.5 hover:border-brand-300"
             >
-              <div className="flex items-center gap-2 text-xs text-slate-400">
+              <div className="flex items-center gap-2 text-xs text-ink-soft">
                 <span
-                  className="pill"
+                  className="pill gap-1"
                   style={{
-                    backgroundColor: `${DOMAINS.find((d) => d.id === q.domain)?.color}22`,
-                    color: DOMAINS.find((d) => d.id === q.domain)?.color,
+                    backgroundColor: `${DOMAIN_MAP[q.domain].color}22`,
+                    color: DOMAIN_MAP[q.domain].color,
                   }}
                 >
-                  {DOMAINS.find((d) => d.id === q.domain)?.name}
+                  {DOMAIN_MAP[q.domain].emoji} {DOMAIN_MAP[q.domain].name}
                 </span>
                 <span>{q.subtopic}</span>
                 {q.year > 0 && <span>· {q.year}</span>}
-                <span className="ml-auto text-brand-400">展開詳解 ▼</span>
+                <span className="ml-auto font-semibold text-brand-500">展開詳解 ▼</span>
               </div>
-              <p className="mt-2 line-clamp-2 text-sm">{q.stem}</p>
+              <p className="mt-2 line-clamp-2 text-sm text-ink">{q.stem}</p>
             </button>
           ),
         )}

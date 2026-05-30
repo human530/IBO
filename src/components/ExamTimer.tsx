@@ -30,8 +30,8 @@ export default function ExamTimer({ startedAt, durationSec, onExpire }: Props) {
     const danger = remaining <= 30;
     return (
       <span
-        className={`tabular-nums rounded-lg px-2.5 py-1 text-sm font-semibold ${
-          danger ? 'bg-rose-500/20 text-rose-300' : 'bg-slate-700/60 text-slate-200'
+        className={`tabular-nums rounded-full px-3 py-1 text-sm font-bold ${
+          danger ? 'bg-rose-100 text-rose-500' : 'bg-brand-50 text-brand-600'
         }`}
         title="剩餘作答時間"
       >
@@ -42,7 +42,7 @@ export default function ExamTimer({ startedAt, durationSec, onExpire }: Props) {
 
   return (
     <span
-      className="tabular-nums rounded-lg bg-slate-700/60 px-2.5 py-1 text-sm font-semibold text-slate-200"
+      className="tabular-nums rounded-full bg-brand-50 px-3 py-1 text-sm font-bold text-brand-600"
       title="已用時間"
     >
       ⏱ {formatDuration(elapsed)}

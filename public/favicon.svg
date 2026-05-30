@@ -1,5 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#059669"/>
-  <path d="M22 14c10 6 10 30 0 36M42 14c-10 6-10 30 0 36" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path d="M24 22h16M22 32h20M24 42h16" stroke="#a7f3d0" stroke-width="3" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fcef0"/>
+      <stop offset="1" stop-color="#eaf4fc"/>
+    </linearGradient>
+    <clipPath id="r"><rect width="64" height="64" rx="16"/></clipPath>
+  </defs>
+  <g clip-path="url(#r)">
+    <rect width="64" height="64" fill="url(#sky)"/>
+    <!-- cloud -->
+    <g fill="#ffffff">
+      <ellipse cx="16" cy="16" rx="9" ry="5"/>
+      <ellipse cx="23" cy="14" rx="6" ry="5"/>
+    </g>
+    <!-- cloud-sea / distant hills in blue & white -->
+    <path d="M0 46 C 14 38 24 50 38 45 C 50 41 58 48 64 45 L64 64 L0 64 Z" fill="#cfe6f6"/>
+    <path d="M0 54 C 18 47 30 58 46 53 C 56 50 60 56 64 54 L64 64 L0 64 Z" fill="#ffffff"/>
+    <!-- cell mascot -->
+    <circle cx="40" cy="40" r="11" fill="#f7fbff" stroke="#5fa1d3" stroke-width="2"/>
+    <circle cx="40" cy="41" r="4.5" fill="#dcebf8"/>
+    <circle cx="37.5" cy="39.5" r="1.1" fill="#324155"/>
+    <circle cx="42.5" cy="39.5" r="1.1" fill="#324155"/>
+    <path d="M37.5 43c1.4 1.5 4 1.5 5.4 0" stroke="#3d83bf" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  </g>
 </svg>

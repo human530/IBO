@@ -1,68 +1,90 @@
 import { lazy, Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
+import Mascot from './components/Mascot';
+import Scenery from './components/Scenery';
 
 // Code-split heavier routes (charts, exam runner) so the first paint stays light.
 const Exam = lazy(() => import('./pages/Exam'));
 const Bank = lazy(() => import('./pages/Bank'));
 const Trends = lazy(() => import('./pages/Trends'));
 const Performance = lazy(() => import('./pages/Performance'));
+const Resources = lazy(() => import('./pages/Resources'));
 const Settings = lazy(() => import('./pages/Settings'));
 
-const NAV = [
-  { to: '/', label: '首頁', icon: '🏠', end: true },
-  { to: '/exam', label: '模擬測驗', icon: '📝' },
-  { to: '/bank', label: '題庫', icon: '📚' },
-  { to: '/trends', label: '趨勢分析', icon: '📈' },
-  { to: '/performance', label: '成績分析', icon: '🎯' },
-  { to: '/settings', label: '設定', icon: '⚙️' },
+interface NavItem {
+  to: string;
+  label: string;
+  icon: string;
+  tint: string;
+  end?: boolean;
+}
+
+const NAV: NavItem[] = [
+  { to: '/', label: '首頁', icon: '🏠', tint: '#d8ebef', end: true },
+  { to: '/exam', label: '模擬測驗', icon: '📝', tint: '#e6e0f2' },
+  { to: '/bank', label: '題庫', icon: '📚', tint: '#dcefdd' },
+  { to: '/trends', label: '趨勢分析', icon: '📈', tint: '#fbeccf' },
+  { to: '/performance', label: '成績分析', icon: '🎯', tint: '#fbe0d2' },
+  { to: '/resources', label: '官方資源', icon: '🔗', tint: '#d6ebf2' },
+  { to: '/settings', label: '設定', icon: '⚙️', tint: '#ece7da' },
 ];
 
 export default function App() {
   return (
     <div className="min-h-full flex flex-col md:flex-row">
+      <Scenery />
       {/* Sidebar (desktop) */}
-      <aside className="hidden md:flex md:w-60 md:flex-col border-r border-slate-800 bg-slate-900/60 p-4">
-        <div className="flex items-center gap-2 px-2 pb-6">
-          <span className="text-2xl">🧬</span>
+      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-ink/10 bg-cream/70 p-4 backdrop-blur-sm">
+        <div className="flex items-center gap-3 px-2 pb-6 pt-2">
+          <Mascot size={44} />
           <div>
-            <div className="font-bold leading-tight">生物奧林匹亞</div>
-            <div className="text-xs text-slate-400">模擬複習系統</div>
+            <div className="font-display text-lg font-bold leading-tight text-ink">生物奧林匹亞</div>
+            <div className="text-xs text-ink-soft">模擬複習・邁向國手</div>
           </div>
         </div>
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-1.5">
           {NAV.map((n) => (
             <NavLink
               key={n.to}
               to={n.to}
               end={n.end}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
-                  isActive ? 'bg-brand-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                `flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition ${
+                  isActive
+                    ? 'bg-gradient-to-r from-brand-400 to-brand-500 text-white shadow-cute'
+                    : 'text-ink hover:bg-brand-100/60'
                 }`
               }
             >
-              <span>{n.icon}</span>
-              {n.label}
+              {({ isActive }) => (
+                <>
+                  <span
+                    className="icon-chip"
+                    style={{ background: isActive ? 'rgba(255,255,255,0.25)' : n.tint }}
+                  >
+                    {n.icon}
+                  </span>
+                  {n.label}
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
       </aside>
 
       {/* Mobile header */}
-      <header className="md:hidden sticky top-0 z-10 flex items-center gap-2 border-b border-slate-800 bg-slate-900/90 px-4 py-3 backdrop-blur">
-        <span className="text-xl">🧬</span>
-        <span className="font-bold">生物奧林匹亞模擬複習</span>
+      <header className="md:hidden sticky top-0 z-10 flex items-center gap-2 border-b border-ink/10 bg-cream/85 px-4 py-3 backdrop-blur">
+        <Mascot size={30} />
+        <span className="font-display font-bold text-ink">生物奧林匹亞模擬複習</span>
       </header>
 
       {/* Main content */}
-      <main className="flex-1 overflow-x-hidden pb-24 md:pb-8">
+      <main className="flex-1 overflow-x-hidden pb-28 md:pb-10">
         <div className="mx-auto max-w-5xl px-4 py-6 md:px-8">
           <Suspense
             fallback={
-              <div className="flex items-center justify-center py-20 text-slate-400">
-                載入中…
-              </div>
+              <div className="flex items-center justify-center py-20 text-ink-soft">載入中… 🧫</div>
             }
           >
             <Routes>
@@ -71,6 +93,7 @@ export default function App() {
               <Route path="/bank" element={<Bank />} />
               <Route path="/trends" element={<Trends />} />
               <Route path="/performance" element={<Performance />} />
+              <Route path="/resources" element={<Resources />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </Suspense>
@@ -78,20 +101,29 @@ export default function App() {
       </main>
 
       {/* Bottom nav (mobile) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 grid grid-cols-6 border-t border-slate-800 bg-slate-900/95 backdrop-blur">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 grid grid-cols-7 border-t border-ink/10 bg-cream/90 backdrop-blur">
         {NAV.map((n) => (
           <NavLink
             key={n.to}
             to={n.to}
             end={n.end}
             className={({ isActive }) =>
-              `flex flex-col items-center gap-0.5 py-2 text-[10px] ${
-                isActive ? 'text-brand-400' : 'text-slate-400'
+              `flex flex-col items-center gap-0.5 py-2 text-[9px] font-medium ${
+                isActive ? 'text-brand-500' : 'text-ink-soft'
               }`
             }
           >
-            <span className="text-lg">{n.icon}</span>
-            {n.label}
+            {({ isActive }) => (
+              <>
+                <span
+                  className="flex h-7 w-7 items-center justify-center rounded-xl text-base"
+                  style={{ background: isActive ? '#d8ebef' : 'transparent' }}
+                >
+                  {n.icon}
+                </span>
+                {n.label}
+              </>
+            )}
           </NavLink>
         ))}
       </nav>

@@ -20,6 +20,7 @@ import {
   detectWeaknesses,
   scoreTimeline,
 } from '../lib/scoring';
+import { CHART } from '../lib/chartTheme';
 
 export default function Performance() {
   const sessions = useStore((s) => s.sessions);
@@ -29,8 +30,8 @@ export default function Performance() {
   if (attempts.length === 0) {
     return (
       <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">成績分析</h1>
-        <div className="card text-center text-slate-400">
+        <h1 className="font-display text-2xl font-bold text-ink">成績分析 🎯</h1>
+        <div className="card text-center text-ink-soft">
           尚無作答紀錄。完成模擬測驗後，這裡會顯示：
           <ul className="mx-auto mt-3 max-w-xs list-disc text-left text-sm">
             <li>成績趨勢曲線</li>
@@ -58,87 +59,69 @@ export default function Performance() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold">成績動態分析</h1>
-        <p className="text-sm text-slate-400">
-          綜合準備度 <span className="font-bold text-brand-400">{readiness.score}</span> / 100，
+        <h1 className="font-display text-2xl font-bold text-ink">成績動態分析 🎯</h1>
+        <p className="text-sm text-ink-soft">
+          綜合準備度 <span className="font-bold text-brand-500">{readiness.score}</span> / 100，
           已作答 {attempts.length} 題。
         </p>
       </div>
 
-      {/* Score timeline */}
       <div className="card">
-        <h3 className="mb-4 font-semibold">成績趨勢</h3>
+        <h3 className="mb-4 font-display font-bold text-ink">成績趨勢</h3>
         <div className="h-60 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={timeline}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} />
-              <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={12} />
-              <Tooltip
-                contentStyle={{
-                  background: '#0f172a',
-                  border: '1px solid #334155',
-                  borderRadius: 12,
-                }}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
+              <XAxis dataKey="name" stroke={CHART.axis} fontSize={CHART.axisFont} />
+              <YAxis domain={[0, 100]} stroke={CHART.axis} fontSize={CHART.axisFont} />
+              <Tooltip contentStyle={CHART.tooltip} />
               <Line
                 type="monotone"
                 dataKey="正確率"
-                stroke="#10b981"
-                strokeWidth={2}
-                dot={{ r: 4 }}
+                stroke="#43899b"
+                strokeWidth={3}
+                dot={{ r: 4, fill: '#43899b' }}
+                activeDot={{ r: 6 }}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Mastery radar */}
       <div className="card">
-        <h3 className="mb-4 font-semibold">領域掌握度雷達圖</h3>
+        <h3 className="mb-4 font-display font-bold text-ink">領域掌握度雷達圖</h3>
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart data={radarData}>
-              <PolarGrid stroke="#334155" />
-              <PolarAngleAxis dataKey="domain" tick={{ fill: '#cbd5e1', fontSize: 10 }} />
-              <PolarRadiusAxis domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 9 }} />
-              <Radar
-                dataKey="掌握度"
-                stroke="#10b981"
-                fill="#10b981"
-                fillOpacity={0.4}
-              />
-              <Tooltip
-                contentStyle={{
-                  background: '#0f172a',
-                  border: '1px solid #334155',
-                  borderRadius: 12,
-                }}
-              />
+              <PolarGrid stroke={CHART.grid} />
+              <PolarAngleAxis dataKey="domain" tick={{ fill: '#8a7593', fontSize: 10 }} />
+              <PolarRadiusAxis domain={[0, 100]} tick={{ fill: '#b8a9bf', fontSize: 9 }} />
+              <Radar dataKey="掌握度" stroke="#43899b" fill="#5ca5b5" fillOpacity={0.4} />
+              <Tooltip contentStyle={CHART.tooltip} />
             </RadarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Per-domain table */}
       <div className="card">
-        <h3 className="mb-3 font-semibold">各領域詳細數據</h3>
+        <h3 className="mb-3 font-display font-bold text-ink">各領域詳細數據</h3>
         <div className="flex flex-col gap-1.5 text-sm">
           {stats.map((s) => {
             const meta = DOMAIN_MAP[s.domain];
             return (
               <div key={s.domain} className="flex items-center gap-3">
-                <span className="w-28 truncate" style={{ color: meta.color }}>
+                <span className="flex w-28 items-center gap-1 truncate" style={{ color: meta.color }}>
+                  <span>{meta.emoji}</span>
                   {meta.name}
                 </span>
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-700">
+                <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-brand-50">
                   <div
                     className="h-full rounded-full"
                     style={{ width: `${s.mastery}%`, background: meta.color }}
                   />
                 </div>
-                <span className="w-10 text-right tabular-nums">{s.mastery}</span>
-                <span className="w-16 text-right text-xs text-slate-500">
+                <span className="w-10 text-right font-semibold tabular-nums text-ink">{s.mastery}</span>
+                <span className="w-16 text-right text-xs text-ink-faint">
                   {s.attempted ? `${s.correct}/${s.attempted}` : '—'}
                 </span>
               </div>
@@ -147,24 +130,25 @@ export default function Performance() {
         </div>
       </div>
 
-      {/* Recommendations */}
       <div className="card">
-        <h3 className="mb-3 font-semibold">複習建議</h3>
+        <h3 className="mb-3 font-display font-bold text-ink">複習建議 ✨</h3>
         {weaknesses.length === 0 ? (
-          <p className="text-sm text-brand-400">各領域皆達標，維持手感並挑戰更高難度題目！</p>
+          <p className="text-sm font-semibold text-emerald-500">
+            各領域皆達標，維持手感並挑戰更高難度題目！
+          </p>
         ) : (
           <ol className="flex flex-col gap-2 text-sm">
             {weaknesses.slice(0, 5).map((w, i) => {
               const meta = DOMAIN_MAP[w.domain];
               return (
                 <li key={w.domain} className="flex items-start gap-2">
-                  <span className="font-bold text-amber-400">{i + 1}.</span>
-                  <span>
-                    優先加強 <span style={{ color: meta.color }}>{meta.name}</span>
+                  <span className="font-display font-bold text-brand-400">{i + 1}.</span>
+                  <span className="text-ink">
+                    優先加強 <span style={{ color: meta.color }}>{meta.emoji}{meta.name}</span>
                     {w.attempted === 0 ? (
-                      <span className="text-slate-400">（尚未練習，建議立即測驗）</span>
+                      <span className="text-ink-soft">（尚未練習，建議立即測驗）</span>
                     ) : (
-                      <span className="text-slate-400">
+                      <span className="text-ink-soft">
                         （掌握度 {w.mastery}，正確率 {Math.round(w.accuracy * 100)}%）
                       </span>
                     )}
@@ -180,9 +164,8 @@ export default function Performance() {
         </a>
       </div>
 
-      <p className="text-center text-xs text-slate-600">
-        掌握度採近因加權與樣本信賴校正；達 85 視為複賽前段水準。
-        共 {DOMAINS.length} 領域。
+      <p className="text-center text-xs text-ink-faint">
+        掌握度採近因加權與樣本信賴校正；達 85 視為複賽前段水準。共 {DOMAINS.length} 領域。
       </p>
     </div>
   );

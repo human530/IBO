@@ -31,12 +31,12 @@ export default function HandwritingCanvas({ questionId, initial, onChange, disab
     const ctx = canvas.getContext('2d');
     if (!ctx) return; // environments without canvas support (e.g. jsdom)
     ctx.scale(ratio, ratio);
-    ctx.fillStyle = '#0b1f1a';
+    ctx.fillStyle = '#fffafd';
     ctx.fillRect(0, 0, rect.width, rect.height);
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = '#34d399';
+    ctx.strokeStyle = '#e23080';
     setHasInk(false);
     if (initial) {
       const img = new Image();
@@ -87,21 +87,21 @@ export default function HandwritingCanvas({ questionId, initial, onChange, disab
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
     const rect = canvas.getBoundingClientRect();
-    ctx.fillStyle = '#0b1f1a';
+    ctx.fillStyle = '#fffafd';
     ctx.fillRect(0, 0, rect.width, rect.height);
     setHasInk(false);
     onChange('');
   }
 
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3">
-      <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
+    <div className="rounded-2xl border border-brand-100 bg-white p-3">
+      <div className="mb-2 flex items-center justify-between text-xs text-ink-soft">
         <span>✍️ 手寫作答區（可用手指 / 觸控筆書寫）</span>
         <button
           type="button"
           onClick={clear}
           disabled={disabled || !hasInk}
-          className="rounded-lg bg-slate-700 px-2 py-1 text-slate-200 disabled:opacity-40"
+          className="rounded-full bg-brand-50 px-3 py-1 font-semibold text-brand-500 disabled:opacity-40"
         >
           清除重寫
         </button>
@@ -112,10 +112,10 @@ export default function HandwritingCanvas({ questionId, initial, onChange, disab
         onPointerMove={move}
         onPointerUp={end}
         onPointerLeave={end}
-        className="h-44 w-full touch-none rounded-lg"
+        className="h-44 w-full touch-none rounded-xl border border-brand-100"
         style={{ touchAction: 'none' }}
       />
-      <p className="mt-2 text-[11px] text-slate-500">
+      <p className="mt-2 text-[11px] text-ink-faint">
         手寫模式下請在上方寫出推理 / 答案，並於下方點選你的最終選項以套用官方計分。
       </p>
     </div>

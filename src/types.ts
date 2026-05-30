@@ -87,5 +87,7 @@ export interface DomainMeta {
   /** IBO official theory weighting (0–1). */
   weight: number;
   color: string;
+  /** Cartoon glyph used in the cute UI. */
+  emoji: string;
   description: string;
 }

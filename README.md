@@ -1,5 +1,7 @@
 # 🧬 生物奧林匹亞模擬複習系統 (IBO Prep Simulator)
 
+> 🌐 線上版：**https://ibo.mdpiece.life**
+
 一款針對**生物奧林匹亞（初賽 / 複賽）**的多方向模擬複習 PWA。目標：協助考生穩定達到**複賽前段**水準。
 
 > 完全離線可用、資料儲存於本機（不上傳雲端）、可安裝為手機／桌面 App。
@@ -50,5 +52,16 @@ npm run preview    # 預覽正式版
 - 38 項測試（純函數分析引擎 + 出題引擎 + 倒數 + App 流程整合）全數通過。
 - TypeScript strict、ESLint 零警告、正式版 build 成功並產生 Service Worker。
 - 以無頭瀏覽器（Playwright）實測：頁面零 console 錯誤、Service Worker 成功註冊、各頁面與測驗流程正常。
+
+## 🚢 部署 (Vercel)
+
+本專案以 `vercel.json` 設定為 **Vite** 靜態部署，並為 PWA 調校快取標頭
+（`sw.js` / `registerSW.js` / workbox 不長期快取以確保更新；`/assets/*` 雜湊檔案長期 immutable 快取）。
+
+- **框架自動偵測**：Framework `Vite`、Build `npm run build`、Output `dist`。
+- **路由**：使用 `HashRouter`，無需 SPA rewrite，重新整理任何頁面都不會 404。
+- **自訂網域**：於 Vercel 專案 `Settings → Domains` 加入 `ibo.mdpiece.life`，
+  並於 DNS（Cloudflare）新增 `CNAME ibo → cname.vercel-dns.com`（Proxy 設為 DNS only）。
+- **自動部署**：連結 GitHub 後，push 到 `main` 即自動部署，PR 會產生 preview 網址。
 
 > ⚠️ 題庫為依歷屆考題風格與考點分布編寫之練習題，供複習使用。考試日期請於「設定」頁自行更新。
