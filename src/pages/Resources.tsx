@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CONTACT, RESOURCE_GROUPS } from '../data/resources';
 
 export default function Resources() {
@@ -8,6 +9,19 @@ export default function Resources() {
         <p className="text-sm text-ink-soft">
           直接連到中華民國生物奧林匹亞官方網站，掌握第一手的時程、範圍與歷屆試題。
         </p>
+      </div>
+
+      {/* 在站內直接做歷屆風格模擬，不必跳出網站 */}
+      <div className="card">
+        <h3 className="mb-1 font-display font-bold text-ink">站內歷屆模擬測驗 📝</h3>
+        <p className="mb-3 text-xs text-ink-soft">
+          不用跳到官網——直接在這裡按情境做題、計時、官方計分並分析分數落點。
+        </p>
+        <div className="grid gap-2 sm:grid-cols-3">
+          <Link to="/exam" className="btn-ghost">初賽模擬</Link>
+          <Link to="/exam?style=ibo" className="btn-ghost">IBO 風格</Link>
+          <Link to="/exam?camp=1" className="btn-primary">選拔營高強度</Link>
+        </div>
       </div>
 
       {RESOURCE_GROUPS.map((group) => (

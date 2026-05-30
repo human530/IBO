@@ -35,6 +35,7 @@ import {
   scoreQuestion,
 } from '../lib/iboScoring';
 import { attemptScore, formatDuration, sessionTotalTime } from '../lib/scoring';
+import { stageForRound, stageOutcome } from '../data/cutoffs';
 import { useStore } from '../store/useStore';
 import QuestionView from '../components/QuestionView';
 import DomainBadge from '../components/DomainBadge';
@@ -467,6 +468,8 @@ export default function Exam() {
   const totalTime = session ? sessionTotalTime(session) : 0;
   const placement = estimatePlacement(percentage, round);
   const medalColor = MEDAL_COLOR[placement.medal];
+  const stage = stageForRound(round);
+  const outcome = stageOutcome(percentage, stage);
 
   const dist = cohortDistribution(round).map((d) => ({
     bin: `${d.bin}`,
@@ -592,6 +595,41 @@ export default function Exam() {
         <p className="mt-1 text-center text-xs text-ink-faint">
           落點以該階段參賽者成績分布推估（金牌前 10%、銀牌前 30%、銅牌前 60%）。
         </p>
+      </div>
+
+      {/* 晉級分數線 */}
+      <div className="card">
+        <div className="flex items-center justify-between">
+          <h3 className="font-display font-bold text-ink">{stage.emoji} {stage.name}晉級分數線</h3>
+          <span
+            className="pill"
+            style={{
+              backgroundColor: outcome.advances ? '#8fd6a033' : '#b9573e22',
+              color: outcome.advances ? '#46582f' : '#b9573e',
+            }}
+          >
+            {outcome.advances ? '可晉級 ✓' : '未達標 ✗'}
+          </span>
+        </div>
+        <div className="mt-2 grid grid-cols-3 gap-2 text-center text-xs">
+          <div>
+            <div className="font-display text-xl font-bold tabular-nums text-ink">
+              {outcome.rawScore}<span className="text-ink-faint">/{stage.maxScore}</span>
+            </div>
+            <div className="text-ink-soft">你的分數｜晉級線 {outcome.cutoffScore}</div>
+          </div>
+          <div>
+            <div className="font-display text-xl font-bold tabular-nums text-ink">第 {outcome.rank} 名</div>
+            <div className="text-ink-soft">需保持 ≤ 第 {outcome.requiredRank} 名</div>
+          </div>
+          <div>
+            <div className="font-display text-xl font-bold tabular-nums text-ink">
+              {outcome.beats.toLocaleString()}
+            </div>
+            <div className="text-ink-soft">贏過人數（約 {stage.cohortSize.toLocaleString()} 人）</div>
+          </div>
+        </div>
+        <p className="mt-2 text-[11px] text-ink-faint">{stage.note} 名額與分數線逐年不同。</p>
       </div>
 
       {/* per-domain */}
