@@ -53,6 +53,61 @@ body {
   }
 }
 
+/* printable exam paper (hidden on screen; shown only when printing → Save as PDF) */
+.print-root {
+  display: none;
+}
+@media print {
+  body {
+    background: #ffffff !important;
+  }
+  #root {
+    display: none !important;
+  }
+  .print-root {
+    display: block;
+    color: #1f2937;
+    font-size: 12pt;
+    line-height: 1.6;
+    padding: 8mm;
+  }
+  .print-title {
+    font-size: 18pt;
+    font-weight: 700;
+    margin: 0 0 2mm;
+  }
+  .print-sub {
+    color: #6b7280;
+    margin: 0 0 6mm;
+  }
+  .print-h2 {
+    font-size: 14pt;
+    margin: 8mm 0 3mm;
+    border-top: 1px dashed #9ca3af;
+    padding-top: 4mm;
+  }
+  .print-q > li,
+  .print-ans > li {
+    margin-bottom: 5mm;
+    break-inside: avoid;
+  }
+  .print-opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4mm;
+    margin: 1.5mm 0 0 6mm;
+    color: #374151;
+  }
+  .print-simple {
+    margin: 1mm 0 0 6mm;
+    color: #1d4ed8;
+  }
+  .print-exp {
+    margin: 1mm 0 0 6mm;
+    color: #374151;
+  }
+}
+
 @keyframes drift {
   0% {
     transform: translateX(-6vw);

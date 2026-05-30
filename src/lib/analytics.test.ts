@@ -62,3 +62,42 @@ describe('predictHotTopics', () => {
     expect(recent.every((h) => h.heat > 0)).toBe(true);
   });
 });
+
+import {
+  domainProjections,
+  historicalShareByYear,
+  totalByYear,
+} from './analytics';
+import { HISTORY } from '../data/history';
+
+describe('20-year history analytics', () => {
+  it('covers a 20-year span', () => {
+    expect(HISTORY).toHaveLength(20);
+    const years = HISTORY.map((h) => h.year);
+    expect(years[years.length - 1] - years[0]).toBe(19);
+  });
+
+  it('per-year domain shares sum to ~100%', () => {
+    for (const point of historicalShareByYear()) {
+      const sum = Object.entries(point)
+        .filter(([k]) => k !== 'year')
+        .reduce((a, [, v]) => a + (v as number), 0);
+      expect(sum).toBeGreaterThan(95);
+      expect(sum).toBeLessThan(105);
+    }
+  });
+
+  it('projects next-year shares with a trend direction', () => {
+    const proj = domainProjections();
+    expect(proj).toHaveLength(7);
+    expect(proj.every((p) => ['up', 'down', 'flat'].includes(p.direction))).toBe(true);
+    expect(proj.every((p) => p.nextYearShare >= 0)).toBe(true);
+    // cell drifts upward in the model
+    expect(proj.find((p) => p.domain === 'cell')!.direction).toBe('up');
+    expect(proj.find((p) => p.domain === 'systematics')!.direction).toBe('down');
+  });
+
+  it('totalByYear matches history length', () => {
+    expect(totalByYear()).toHaveLength(20);
+  });
+});

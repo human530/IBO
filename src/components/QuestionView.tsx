@@ -63,17 +63,29 @@ export default function QuestionView({ question, index, selected, onSelect, reve
       </div>
 
       {revealed && (
-        <div className="mt-4 rounded-2xl border border-brand-100 bg-brand-50/50 p-4">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-brand-500">
-            <span>💡</span> 詳解
-          </div>
-          <p className="mt-1 text-sm leading-relaxed text-ink">{question.explanation}</p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {question.concepts.map((c) => (
-              <span key={c} className="pill bg-white text-ink-soft">
-                #{c}
-              </span>
-            ))}
+        <div className="mt-4 flex flex-col gap-3">
+          {question.simple && (
+            <div className="rounded-2xl border-2 border-dashed border-brand-300 bg-brand-50/60 p-4">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-brand-600">
+                <span>🧒</span> 秒懂版（5 歲也能懂）
+              </div>
+              <p className="mt-1 text-[15px] font-medium leading-relaxed text-ink">
+                {question.simple}
+              </p>
+            </div>
+          )}
+          <div className="rounded-2xl border border-brand-100 bg-white/70 p-4">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-ink-soft">
+              <span>📘</span> 完整詳解
+            </div>
+            <p className="mt-1 text-sm leading-relaxed text-ink">{question.explanation}</p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {question.concepts.map((c) => (
+                <span key={c} className="pill border border-brand-100 bg-white text-ink-soft">
+                  #{c}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       )}

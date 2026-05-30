@@ -1,34 +1,21 @@
 /**
- * A soft, hand-drawn Ghibli-style backdrop: a few fluffy clouds drifting over
- * layered rolling hills. Purely decorative, fixed behind all content.
+ * A soft, hand-painted Ghibli-style backdrop: layered rolling hills under a
+ * gentle haze. Purely decorative, fixed behind all content. (No clouds.)
  */
 export default function Scenery() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* soft sun haze */}
+      {/* soft light haze */}
       <div
-        className="absolute -right-16 top-10 h-56 w-56 rounded-full opacity-70 blur-2xl"
+        className="absolute -right-16 top-10 h-56 w-56 rounded-full opacity-70 blur-3xl"
         style={{ background: 'radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0) 70%)' }}
       />
+      <div
+        className="absolute -left-10 top-1/3 h-48 w-48 rounded-full opacity-50 blur-3xl"
+        style={{ background: 'radial-gradient(circle, #e6f2fb 0%, rgba(230,242,251,0) 70%)' }}
+      />
 
-      {/* clouds */}
-      <svg className="absolute left-[6%] top-[8%] w-44 opacity-80 animate-[drift_60s_linear_infinite]" viewBox="0 0 120 50">
-        <g fill="#ffffff">
-          <ellipse cx="40" cy="32" rx="34" ry="16" />
-          <ellipse cx="66" cy="26" rx="26" ry="18" />
-          <ellipse cx="86" cy="34" rx="22" ry="13" />
-          <ellipse cx="22" cy="36" rx="18" ry="11" />
-        </g>
-      </svg>
-      <svg className="absolute right-[10%] top-[20%] w-32 opacity-70" viewBox="0 0 120 50">
-        <g fill="#ffffff">
-          <ellipse cx="44" cy="30" rx="30" ry="15" />
-          <ellipse cx="70" cy="26" rx="22" ry="15" />
-          <ellipse cx="24" cy="34" rx="16" ry="10" />
-        </g>
-      </svg>
-
-      {/* layered distant hills / cloud sea in soft blues */}
+      {/* layered distant hills in soft blues */}
       <svg
         className="absolute bottom-0 left-0 w-full"
         viewBox="0 0 1440 320"

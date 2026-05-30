@@ -34,8 +34,10 @@ export interface Question {
   options: Option[];
   /** Correct option id(s). */
   answer: string[];
-  /** 詳解 */
+  /** 詳解 (technical explanation) */
   explanation: string;
+  /** 秒懂版：用五歲小孩也能懂的白話比喻 (ELI5 analogy). */
+  simple?: string;
   /** Concept tags used for trend + weakness analysis. */
   concepts: string[];
   source?: string;
