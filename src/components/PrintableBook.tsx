@@ -19,11 +19,20 @@ export default function PrintableBook({ book }: { book: Textbook }) {
                   </b>
                 </div>
                 <div className="print-simple">🧒 {c.simple}</div>
+                <div className="print-exp">{c.detail}</div>
                 <ul style={{ margin: '1mm 0 0 8mm' }}>
                   {c.points.map((p, i) => (
                     <li key={i}>{p}</li>
                   ))}
                 </ul>
+                {c.formulas && c.formulas.length > 0 && (
+                  <div style={{ margin: '1.5mm 0 0 6mm' }}>
+                    🧮 公式：
+                    {c.formulas.map((f) => (
+                      <span key={f.name}> {f.name}: {f.expr};</span>
+                    ))}
+                  </div>
+                )}
               </li>
             ))}
           </ol>
