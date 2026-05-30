@@ -9,6 +9,7 @@ import {
   YAxis,
 } from 'recharts';
 import { DOMAINS, DOMAIN_MAP } from '../data/domains';
+import { DomainIcon } from '../components/DomainBadge';
 import { QUESTIONS } from '../data/questions';
 import {
   domainProjections,
@@ -97,7 +98,7 @@ export default function Trends() {
             return (
               <div key={p.domain} className="flex items-center gap-3 text-sm">
                 <span className="flex w-32 items-center gap-1" style={{ color: meta.color }}>
-                  <span>{meta.emoji}</span>
+                  <DomainIcon domain={p.domain} size={16} />
                   {meta.name}
                 </span>
                 <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-brand-50">

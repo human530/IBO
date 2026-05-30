@@ -28,28 +28,28 @@ body {
 @layer components {
   /* 羊皮紙面板：紙底 + 墨線描邊 + 偏移陰影 (parchment panel) */
   .card {
-    @apply rounded-4xl border-2 border-line/55 p-5 shadow-soft;
+    @apply rounded-4xl border-[3px] border-line/70 p-5 shadow-soft;
     background-color: #fbf3df;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl border-2 px-4 py-2.5 font-bold transition-transform active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-40 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] px-4 py-2.5 font-bold transition-transform active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-40 disabled:pointer-events-none;
   }
   .btn-primary {
-    @apply btn border-line/60 bg-brand-300 text-ink shadow-cute hover:bg-brand-400;
+    @apply btn border-line/75 bg-brand-300 text-ink shadow-cute hover:bg-brand-400;
   }
   .btn-ghost {
-    @apply btn border-line/45 text-ink shadow-cute hover:bg-brand-50;
+    @apply btn border-line/60 text-ink shadow-cute hover:bg-brand-50;
     background-color: #fbf3df;
   }
   .pill {
-    @apply inline-flex items-center rounded-full border border-line/40 px-2.5 py-0.5 text-xs font-bold;
+    @apply inline-flex items-center rounded-full border-2 border-line/55 px-2.5 py-0.5 text-xs font-bold;
   }
   /* 木格 / 圓角描邊 icon chip (wooden inventory slot) */
   .icon-chip {
-    @apply inline-flex h-9 w-9 items-center justify-center rounded-xl border-2 border-line/50 text-lg;
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-xl border-[3px] border-line/65 text-lg;
   }
   .field {
-    @apply w-full rounded-xl border-2 border-line/50 px-4 py-2.5 text-ink outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200;
+    @apply w-full rounded-xl border-[3px] border-line/60 px-4 py-2.5 text-ink outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200;
     background-color: #fbf3df;
   }
 }

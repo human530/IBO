@@ -14,6 +14,7 @@ import {
 } from 'recharts';
 import { useStore } from '../store/useStore';
 import { DOMAIN_MAP, DOMAINS } from '../data/domains';
+import { DomainIcon } from '../components/DomainBadge';
 import {
   computeDomainStats,
   computeReadiness,
@@ -111,7 +112,7 @@ export default function Performance() {
             return (
               <div key={s.domain} className="flex items-center gap-3">
                 <span className="flex w-28 items-center gap-1 truncate" style={{ color: meta.color }}>
-                  <span>{meta.emoji}</span>
+                  <DomainIcon domain={s.domain} size={16} />
                   {meta.name}
                 </span>
                 <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-brand-50">
@@ -144,7 +145,7 @@ export default function Performance() {
                 <li key={w.domain} className="flex items-start gap-2">
                   <span className="font-display font-bold text-brand-400">{i + 1}.</span>
                   <span className="text-ink">
-                    優先加強 <span style={{ color: meta.color }}>{meta.emoji}{meta.name}</span>
+                    優先加強 <span className="inline-flex items-center gap-1" style={{ color: meta.color }}><DomainIcon domain={w.domain} size={14} />{meta.name}</span>
                     {w.attempted === 0 ? (
                       <span className="text-ink-soft">（尚未練習，建議立即測驗）</span>
                     ) : (

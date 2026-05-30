@@ -4,6 +4,7 @@ import { QUESTIONS } from '../data/questions';
 import { computeReadiness, detectWeaknesses } from '../lib/scoring';
 import { daysUntil } from '../lib/countdown';
 import { DOMAIN_MAP } from '../data/domains';
+import { DomainIcon } from '../components/DomainBadge';
 import CountdownCard from '../components/CountdownCard';
 
 const LEVEL_LABEL: Record<string, { text: string; color: string; emoji: string }> = {
@@ -99,7 +100,7 @@ export default function Dashboard() {
               return (
                 <div key={w.domain} className="flex items-center gap-3">
                   <span className="flex w-28 items-center gap-1 text-sm" style={{ color: meta.color }}>
-                    <span>{meta.emoji}</span>
+                    <DomainIcon domain={w.domain} size={14} />
                     {meta.name}
                   </span>
                   <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-brand-50">
