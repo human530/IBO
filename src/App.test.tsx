@@ -15,7 +15,7 @@ function renderApp() {
 describe('App', () => {
   it('renders the dashboard by default', () => {
     renderApp();
-    expect(screen.getByText('準備儀表板')).toBeInTheDocument();
+    expect(screen.getByText(/準備儀表板/)).toBeInTheDocument();
     // countdown cards present
     expect(screen.getByText('初賽倒數')).toBeInTheDocument();
     expect(screen.getByText('複賽倒數')).toBeInTheDocument();

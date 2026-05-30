@@ -1,5 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#059669"/>
-  <path d="M22 14c10 6 10 30 0 36M42 14c-10 6-10 30 0 36" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path d="M24 22h16M22 32h20M24 42h16" stroke="#a7f3d0" stroke-width="3" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fda4cf"/>
+      <stop offset="1" stop-color="#f4509b"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#g)"/>
+  <!-- cute cell mascot -->
+  <circle cx="32" cy="33" r="18" fill="#fff7fb"/>
+  <circle cx="32" cy="34" r="7" fill="#fecde3"/>
+  <circle cx="26" cy="31" r="1.6" fill="#c4b5fd"/>
+  <circle cx="40" cy="29" r="1.6" fill="#7ef0c8"/>
+  <circle cx="41" cy="40" r="1.6" fill="#ffd97a"/>
+  <!-- eyes + smile -->
+  <circle cx="28" cy="33" r="1.6" fill="#5b4660"/>
+  <circle cx="36" cy="33" r="1.6" fill="#5b4660"/>
+  <path d="M28 38c2 2.4 6 2.4 8 0" stroke="#f4509b" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="25.5" cy="36.5" r="2" fill="#fda4cf" opacity="0.7"/>
+  <circle cx="38.5" cy="36.5" r="2" fill="#fda4cf" opacity="0.7"/>
 </svg>

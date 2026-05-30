@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,
@@ -14,25 +14,50 @@ body,
 
 body {
   margin: 0;
-  background: #0b1f1a;
-  color: #e2e8f0;
+  color: #5b4660;
+  background-color: #fff7fb;
+  background-image:
+    radial-gradient(1200px 600px at 110% -10%, #ffe4f0 0%, rgba(255, 228, 240, 0) 55%),
+    radial-gradient(1000px 520px at -10% 0%, #ede9ff 0%, rgba(237, 233, 255, 0) 50%),
+    radial-gradient(900px 500px at 50% 120%, #e6fff4 0%, rgba(230, 255, 244, 0) 55%);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
 
 @layer components {
   .card {
-    @apply rounded-2xl bg-slate-800/60 border border-slate-700/60 p-5 shadow-lg shadow-black/20;
+    @apply rounded-4xl bg-white/80 border border-brand-100 p-5 shadow-soft backdrop-blur-sm;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-medium transition active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 font-semibold transition-transform active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none;
   }
   .btn-primary {
-    @apply btn bg-brand-600 hover:bg-brand-500 text-white;
+    @apply btn bg-gradient-to-b from-brand-400 to-brand-500 text-white shadow-cute hover:from-brand-300 hover:to-brand-400;
   }
   .btn-ghost {
-    @apply btn bg-slate-700/60 hover:bg-slate-700 text-slate-100;
+    @apply btn bg-white text-ink border border-brand-100 hover:bg-brand-50;
   }
   .pill {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold;
   }
+  /* cute rounded icon chip behind an emoji/glyph */
+  .icon-chip {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-2xl text-lg shadow-sm;
+  }
+  .field {
+    @apply w-full rounded-2xl border border-brand-100 bg-white px-4 py-2.5 text-ink outline-none transition focus:border-brand-300 focus:ring-2 focus:ring-brand-100;
+  }
+}
+
+/* friendly chunky scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #fecde3;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #fda4cf;
 }
