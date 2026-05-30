@@ -7,6 +7,7 @@ import Scenery from './components/Scenery';
 // Code-split heavier routes (charts, exam runner) so the first paint stays light.
 const Exam = lazy(() => import('./pages/Exam'));
 const Bank = lazy(() => import('./pages/Bank'));
+const Notes = lazy(() => import('./pages/Notes'));
 const Trends = lazy(() => import('./pages/Trends'));
 const Performance = lazy(() => import('./pages/Performance'));
 const Resources = lazy(() => import('./pages/Resources'));
@@ -24,6 +25,7 @@ const NAV: NavItem[] = [
   { to: '/', label: '首頁', icon: '🏠', tint: '#d8ebef', end: true },
   { to: '/exam', label: '模擬測驗', icon: '📝', tint: '#e6e0f2' },
   { to: '/bank', label: '題庫', icon: '📚', tint: '#dcefdd' },
+  { to: '/notes', label: '複習筆記', icon: '📒', tint: '#e6e0f2' },
   { to: '/trends', label: '趨勢分析', icon: '📈', tint: '#fbeccf' },
   { to: '/performance', label: '成績分析', icon: '🎯', tint: '#fbe0d2' },
   { to: '/resources', label: '官方資源', icon: '🔗', tint: '#d6ebf2' },
@@ -91,6 +93,7 @@ export default function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/exam" element={<Exam />} />
               <Route path="/bank" element={<Bank />} />
+              <Route path="/notes" element={<Notes />} />
               <Route path="/trends" element={<Trends />} />
               <Route path="/performance" element={<Performance />} />
               <Route path="/resources" element={<Resources />} />
@@ -101,7 +104,7 @@ export default function App() {
       </main>
 
       {/* Bottom nav (mobile) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 grid grid-cols-7 border-t border-ink/10 bg-cream/90 backdrop-blur">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 grid grid-cols-8 border-t border-ink/10 bg-cream/90 backdrop-blur">
         {NAV.map((n) => (
           <NavLink
             key={n.to}
