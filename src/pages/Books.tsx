@@ -1,0 +1,134 @@
+import { useState } from 'react';
+import { TEXTBOOKS, type ChapterNote } from '../data/textbooks';
+import PrintableBook from '../components/PrintableBook';
+
+export default function Books() {
+  const [bookId, setBookId] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>(null);
+  const [print, setPrint] = useState(false);
+  const book = TEXTBOOKS.find((b) => b.id === bookId) ?? null;
+
+  function downloadPdf() {
+    setPrint(true);
+    setTimeout(() => window.print(), 120);
+  }
+
+  // ── Bookshelf ──
+  if (!book) {
+    return (
+      <div className="flex flex-col gap-5">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-ink">教材書庫 📚</h1>
+          <p className="text-sm text-ink-soft">
+            點一本書，翻開章節讀重點摘要筆記（以白話＋條列整理，可下載 PDF）。
+          </p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {TEXTBOOKS.map((b) => {
+            const chapters = b.units.reduce((n, u) => n + u.chapters.length, 0);
+            return (
+              <button
+                key={b.id}
+                onClick={() => {
+                  setBookId(b.id);
+                  setOpen(null);
+                }}
+                className="card flex items-center gap-3 text-left transition hover:-translate-y-0.5"
+              >
+                <span
+                  className="flex h-16 w-12 shrink-0 items-center justify-center rounded-md border-[3px] border-line/60 font-display text-xs font-bold text-white"
+                  style={{ background: b.color }}
+                >
+                  BIO
+                </span>
+                <span className="flex-1">
+                  <span className="block font-display font-bold text-ink">{b.title}</span>
+                  <span className="block text-xs text-ink-soft">{b.zh}</span>
+                  <span className="mt-1 block text-[11px] text-ink-faint">
+                    {b.units.length} 單元 · {chapters} 章重點
+                  </span>
+                </span>
+                <span className="text-brand-500">翻開 →</span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-center text-xs text-ink-faint">
+          內容為依各書標準章節結構撰寫的原創學習摘要，非書本原文。
+        </p>
+      </div>
+    );
+  }
+
+  // ── Book reader ──
+  return (
+    <div className="flex flex-col gap-5">
+      <div className="flex items-center justify-between">
+        <button onClick={() => setBookId(null)} className="text-sm font-semibold text-brand-500">
+          ← 書庫
+        </button>
+        <button className="btn-ghost px-3 py-1.5 text-sm" onClick={downloadPdf}>
+          📄 下載本書筆記 PDF
+        </button>
+      </div>
+
+      <div className="card" style={{ borderColor: `${book.color}` }}>
+        <h1 className="font-display text-xl font-bold text-ink">{book.title}</h1>
+        <p className="text-sm text-ink-soft">{book.zh}</p>
+      </div>
+
+      {book.units.map((u) => (
+        <div key={u.unit} className="card">
+          <h3 className="mb-3 font-display font-bold" style={{ color: book.color }}>
+            {u.unit}
+          </h3>
+          <div className="flex flex-col gap-2">
+            {u.chapters.map((c) => {
+              const key = u.unit + c.ch + c.title;
+              const isOpen = open === key;
+              return (
+                <div key={key} className="rounded-2xl border-2 border-line/40 bg-white/60">
+                  <button
+                    onClick={() => setOpen(isOpen ? null : key)}
+                    className="flex w-full items-center gap-3 px-3 py-2.5 text-left"
+                  >
+                    <span
+                      className="shrink-0 rounded-md border-2 border-line/50 px-2 py-0.5 text-xs font-bold"
+                      style={{ color: book.color }}
+                    >
+                      {c.ch}
+                    </span>
+                    <span className="flex-1 font-display font-bold text-ink">{c.title}</span>
+                    <span className="text-ink-soft">{isOpen ? '▲' : '▼'}</span>
+                  </button>
+                  {isOpen && <ChapterBody note={c} color={book.color} />}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {print && <PrintableBook book={book} />}
+    </div>
+  );
+}
+
+function ChapterBody({ note, color }: { note: ChapterNote; color: string }) {
+  return (
+    <div className="border-t-2 border-line/30 px-4 py-3">
+      <div className="rounded-xl border-2 border-dashed border-brand-300 bg-brand-50/50 p-2.5">
+        <span className="text-xs font-bold text-brand-600">🧒 秒懂</span>
+        <p className="mt-0.5 text-[15px] font-medium leading-relaxed text-ink">{note.simple}</p>
+      </div>
+      <ul className="mt-2 flex flex-col gap-1.5">
+        {note.points.map((p, i) => (
+          <li key={i} className="flex gap-2 text-sm leading-relaxed text-ink">
+            <span style={{ color }}>▸</span>
+            <span>{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
