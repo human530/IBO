@@ -4,35 +4,35 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 吉卜力天空藍 (Ghibli sky / primary)
+        // 天空之城藍 (clean Ghibli sky-blue / primary)
         brand: {
-          50: '#eef6f8',
-          100: '#d8ebef',
-          200: '#b6dae1',
-          300: '#8bc3ce',
-          400: '#5ca5b5',
-          500: '#43899b',
-          600: '#366f80',
-          700: '#2e5a68',
-          800: '#2a4a55',
-          900: '#263e48',
+          50: '#f1f7fc',
+          100: '#dcebf8',
+          200: '#bedaef',
+          300: '#92c1e3',
+          400: '#5fa1d3',
+          500: '#3d83bf',
+          600: '#2f69a0',
+          700: '#295681',
+          800: '#26486a',
+          900: '#233d59',
         },
-        // 紙感奶油底色 (warm paper)
-        cream: '#fbf5e6',
-        // 自然色點綴 (kept the `candy` token name to minimise churn)
+        // 雲白紙感底色 (soft cloud white)
+        cream: '#f7fbff',
+        // 點綴色 (kept the `candy` token name to minimise churn)
         candy: {
           pink: '#e7a3a8',
-          lavender: '#b3a4d4',
-          mint: '#9fd6b6',
+          lavender: '#a9b8e0',
+          mint: '#9fd6cf',
           peach: '#f0b27a',
           sky: '#a9d6e5',
           lemon: '#f2d281',
         },
-        // 暖棕墨色文字
+        // 冷調墨藍文字
         ink: {
-          DEFAULT: '#4f4636',
-          soft: '#7a715f',
-          faint: '#a89f8c',
+          DEFAULT: '#324155',
+          soft: '#5f7088',
+          faint: '#93a3b8',
         },
         meadow: '#7fb069',
         sunset: '#ef9d6b',

@@ -14,15 +14,15 @@ body,
 
 body {
   margin: 0;
-  color: #4f4636;
-  /* 吉卜力天空：上方晴空藍漸層到下方奶油色 (a Ghibli sky fading to warm cream) */
-  background-color: #fbf5e6;
+  color: #324155;
+  /* 天空之城：晴空藍漸層到雲白 (a clear sky fading to cloud white) */
+  background-color: #f7fbff;
   background-image: linear-gradient(
     180deg,
-    #cfe8f0 0%,
-    #e4f0ec 30%,
-    #f3f0e2 58%,
-    #fbf5e6 100%
+    #bfe0f5 0%,
+    #d8edfb 26%,
+    #ecf6fd 52%,
+    #f7fbff 100%
   );
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
@@ -71,9 +71,9 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbe0d6;
+  background: #bedaef;
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a9d6e5;
+  background: #92c1e3;
 }

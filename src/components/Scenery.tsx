@@ -5,10 +5,10 @@
 export default function Scenery() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* sun glow */}
+      {/* soft sun haze */}
       <div
-        className="absolute -right-16 top-10 h-56 w-56 rounded-full opacity-60 blur-2xl"
-        style={{ background: 'radial-gradient(circle, #fdeccb 0%, rgba(253,236,203,0) 70%)' }}
+        className="absolute -right-16 top-10 h-56 w-56 rounded-full opacity-70 blur-2xl"
+        style={{ background: 'radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0) 70%)' }}
       />
 
       {/* clouds */}
@@ -28,7 +28,7 @@ export default function Scenery() {
         </g>
       </svg>
 
-      {/* rolling hills at the bottom */}
+      {/* layered distant hills / cloud sea in soft blues */}
       <svg
         className="absolute bottom-0 left-0 w-full"
         viewBox="0 0 1440 320"
@@ -37,18 +37,18 @@ export default function Scenery() {
       >
         <path
           d="M0 220 C 240 160 360 260 600 230 C 840 200 960 280 1200 240 C 1320 220 1400 250 1440 240 L1440 320 L0 320 Z"
-          fill="#cfe6c2"
+          fill="#cfe6f6"
           opacity="0.7"
         />
         <path
           d="M0 270 C 260 220 420 300 720 270 C 1020 240 1160 300 1440 280 L1440 320 L0 320 Z"
-          fill="#aed6a0"
+          fill="#aed3ef"
           opacity="0.75"
         />
         <path
           d="M0 300 C 300 270 540 320 900 300 C 1140 288 1300 312 1440 305 L1440 320 L0 320 Z"
-          fill="#8fbf7e"
-          opacity="0.8"
+          fill="#ffffff"
+          opacity="0.85"
         />
       </svg>
     </div>

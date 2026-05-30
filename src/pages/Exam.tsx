@@ -502,11 +502,11 @@ export default function Exam() {
         <div className="mt-5 h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dist}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e3e0cf" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#dbe7f2" />
               <XAxis dataKey="bin" stroke="#94a3b8" fontSize={10} interval={1} />
               <YAxis stroke="#94a3b8" fontSize={10} allowDecimals={false} />
               <Tooltip
-                contentStyle={{ background: '#fbf5e6', border: '1px solid #d8ebef', borderRadius: 16, color: '#4f4636' }}
+                contentStyle={{ background: '#ffffff', border: '1px solid #cfe2f2', borderRadius: 16, color: '#324155' }}
                 labelFormatter={(l) => `分數 ${l}–${Number(l) + 5}%`}
               />
               <ReferenceLine
