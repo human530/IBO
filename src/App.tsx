@@ -10,6 +10,7 @@ const Bank = lazy(() => import('./pages/Bank'));
 const Notes = lazy(() => import('./pages/Notes'));
 const Trends = lazy(() => import('./pages/Trends'));
 const Performance = lazy(() => import('./pages/Performance'));
+const Strategy = lazy(() => import('./pages/Strategy'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Settings = lazy(() => import('./pages/Settings'));
 
@@ -28,6 +29,7 @@ const NAV: NavItem[] = [
   { to: '/notes', label: '複習筆記', icon: '📒', tint: '#e6e0f2' },
   { to: '/trends', label: '趨勢分析', icon: '📈', tint: '#fbeccf' },
   { to: '/performance', label: '成績分析', icon: '🎯', tint: '#fbe0d2' },
+  { to: '/strategy', label: '成功心法', icon: '🏅', tint: '#fdeccf' },
   { to: '/resources', label: '官方資源', icon: '🔗', tint: '#d6ebf2' },
   { to: '/settings', label: '設定', icon: '⚙️', tint: '#ece7da' },
 ];
@@ -96,6 +98,7 @@ export default function App() {
               <Route path="/notes" element={<Notes />} />
               <Route path="/trends" element={<Trends />} />
               <Route path="/performance" element={<Performance />} />
+              <Route path="/strategy" element={<Strategy />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>
@@ -103,15 +106,15 @@ export default function App() {
         </div>
       </main>
 
-      {/* Bottom nav (mobile) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 grid grid-cols-8 border-t border-ink/10 bg-cream/90 backdrop-blur">
+      {/* Bottom nav (mobile) — horizontally scrollable */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 flex overflow-x-auto border-t border-ink/10 bg-cream/90 backdrop-blur [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {NAV.map((n) => (
           <NavLink
             key={n.to}
             to={n.to}
             end={n.end}
             className={({ isActive }) =>
-              `flex flex-col items-center gap-0.5 py-2 text-[9px] font-medium ${
+              `flex w-[19%] shrink-0 flex-col items-center gap-0.5 py-2 text-[9px] font-medium ${
                 isActive ? 'text-brand-500' : 'text-ink-soft'
               }`
             }

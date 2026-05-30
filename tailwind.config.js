@@ -4,50 +4,51 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 天空之城藍 (clean Ghibli sky-blue / primary)
+        // 粉嫩主色 (soft candy pink)
         brand: {
-          50: '#f1f7fc',
-          100: '#dcebf8',
-          200: '#bedaef',
-          300: '#92c1e3',
-          400: '#5fa1d3',
-          500: '#3d83bf',
-          600: '#2f69a0',
-          700: '#295681',
-          800: '#26486a',
-          900: '#233d59',
+          50: '#fff1f7',
+          100: '#ffe1ee',
+          200: '#ffc6df',
+          300: '#ff9ec8',
+          400: '#fb72b4',
+          500: '#f4509b',
+          600: '#e23080',
+          700: '#bd1e66',
+          800: '#9c1c56',
+          900: '#821a4a',
         },
-        // 雲白紙感底色 (soft cloud white)
-        cream: '#f7fbff',
-        // 點綴色 (kept the `candy` token name to minimise churn)
+        // 粉白紙底
+        cream: '#fff6fb',
+        // 兒童畫風的描邊色 (crayon outline)
+        line: '#6b5570',
         candy: {
-          pink: '#e7a3a8',
-          lavender: '#a9b8e0',
-          mint: '#9fd6cf',
-          peach: '#f0b27a',
-          sky: '#a9d6e5',
-          lemon: '#f2d281',
+          pink: '#ffb3d6',
+          lavender: '#c9b8f0',
+          mint: '#9ae8c8',
+          peach: '#ffc09a',
+          sky: '#a9d8f5',
+          lemon: '#ffe08a',
         },
-        // 冷調墨藍文字
         ink: {
-          DEFAULT: '#324155',
-          soft: '#5f7088',
-          faint: '#93a3b8',
+          DEFAULT: '#5b4660',
+          soft: '#8a7593',
+          faint: '#bda9c4',
         },
-        meadow: '#7fb069',
-        sunset: '#ef9d6b',
+        meadow: '#8fd6a0',
+        sunset: '#ff9f6b',
       },
       fontFamily: {
         sans: ['"Noto Sans TC"', 'system-ui', 'sans-serif'],
-        // 手寫故事感字體 (Klee One supports Traditional Chinese)
-        display: ['"Klee One"', '"Noto Sans TC"', 'system-ui', 'serif'],
+        // 手寫童趣字體
+        display: ['"Klee One"', '"Noto Sans TC"', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        soft: '0 12px 30px -14px rgba(79, 70, 54, 0.35)',
-        cute: '0 5px 0 0 rgba(54, 111, 128, 0.18)',
+        // 卡通貼紙感的偏移實心陰影
+        soft: '4px 5px 0 -1px rgba(244, 80, 155, 0.22)',
+        cute: '3px 3px 0 0 rgba(107, 85, 112, 0.22)',
       },
       borderRadius: {
-        '4xl': '2rem',
+        '4xl': '1.9rem',
       },
     },
   },

@@ -14,42 +14,40 @@ body,
 
 body {
   margin: 0;
-  color: #324155;
-  /* 天空之城：晴空藍漸層到雲白 (a clear sky fading to cloud white) */
-  background-color: #f7fbff;
-  background-image: linear-gradient(
-    180deg,
-    #bfe0f5 0%,
-    #d8edfb 26%,
-    #ecf6fd 52%,
-    #f7fbff 100%
-  );
+  color: #5b4660;
+  /* 粉嫩兒童畫風背景 */
+  background-color: #fff6fb;
+  background-image:
+    radial-gradient(1100px 560px at 110% -8%, #ffe1ee 0%, rgba(255, 225, 238, 0) 55%),
+    radial-gradient(950px 520px at -8% 4%, #ece4ff 0%, rgba(236, 228, 255, 0) 52%),
+    radial-gradient(900px 520px at 50% 118%, #e3fff2 0%, rgba(227, 255, 242, 0) 55%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
 
 @layer components {
+  /* 卡片：白底 + 描邊 + 貼紙陰影 (coloring-book card) */
   .card {
-    @apply rounded-4xl border border-ink/10 bg-cream/85 p-5 shadow-soft backdrop-blur-sm;
+    @apply rounded-4xl border-2 border-line/25 bg-white/90 p-5 shadow-soft;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 font-semibold transition-transform active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2.5 font-bold transition-transform active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-40 disabled:pointer-events-none;
   }
   .btn-primary {
-    @apply btn bg-gradient-to-b from-brand-400 to-brand-500 text-white shadow-cute hover:from-brand-300 hover:to-brand-400;
+    @apply btn border-line/30 bg-brand-300 text-white shadow-cute hover:bg-brand-400;
   }
   .btn-ghost {
-    @apply btn border border-ink/10 bg-cream text-ink hover:bg-brand-50;
+    @apply btn border-line/25 bg-white text-ink shadow-cute hover:bg-brand-50;
   }
   .pill {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold;
   }
-  /* cute rounded icon chip behind an emoji/glyph */
+  /* 圓角描邊 icon chip */
   .icon-chip {
-    @apply inline-flex h-9 w-9 items-center justify-center rounded-2xl text-lg shadow-sm;
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-2xl border-2 border-line/20 text-lg;
   }
   .field {
-    @apply w-full rounded-2xl border border-ink/15 bg-white/80 px-4 py-2.5 text-ink outline-none transition focus:border-brand-300 focus:ring-2 focus:ring-brand-100;
+    @apply w-full rounded-2xl border-2 border-line/25 bg-white px-4 py-2.5 text-ink outline-none transition focus:border-brand-300 focus:ring-2 focus:ring-brand-100;
   }
 }
 
@@ -100,23 +98,11 @@ body {
   }
   .print-simple {
     margin: 1mm 0 0 6mm;
-    color: #1d4ed8;
+    color: #be185d;
   }
   .print-exp {
     margin: 1mm 0 0 6mm;
     color: #374151;
-  }
-}
-
-@keyframes drift {
-  0% {
-    transform: translateX(-6vw);
-  }
-  50% {
-    transform: translateX(6vw);
-  }
-  100% {
-    transform: translateX(-6vw);
   }
 }
 
@@ -126,9 +112,9 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #bedaef;
+  background: #ffc6df;
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #92c1e3;
+  background: #ff9ec8;
 }
