@@ -46,7 +46,7 @@ type Phase = 'config' | 'running' | 'result';
 const PER_QUESTION_SEC: Record<Round, number> = { preliminary: 90, semifinal: 120 };
 
 const MEDAL_COLOR: Record<string, string> = {
-  gold: '#fbbf24',
+  gold: '#e3b341',
   silver: '#cbd5e1',
   bronze: '#d97706',
   none: '#64748b',
@@ -502,22 +502,22 @@ export default function Exam() {
         <div className="mt-5 h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dist}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#fbe3ef" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3e0cf" />
               <XAxis dataKey="bin" stroke="#94a3b8" fontSize={10} interval={1} />
               <YAxis stroke="#94a3b8" fontSize={10} allowDecimals={false} />
               <Tooltip
-                contentStyle={{ background: '#ffffff', border: '1px solid #fecde3', borderRadius: 16, color: '#5b4660' }}
+                contentStyle={{ background: '#fbf5e6', border: '1px solid #d8ebef', borderRadius: 16, color: '#4f4636' }}
                 labelFormatter={(l) => `分數 ${l}–${Number(l) + 5}%`}
               />
               <ReferenceLine
                 x={`${Math.min(95, Math.floor(percentage / 5) * 5)}`}
-                stroke="#f4509b"
+                stroke="#ef9d6b"
                 strokeWidth={2}
-                label={{ value: '你', fill: '#f4509b', fontSize: 11, position: 'top' }}
+                label={{ value: '你', fill: '#ef9d6b', fontSize: 11, position: 'top' }}
               />
               <Bar dataKey="人數">
                 {dist.map((d, i) => (
-                  <Cell key={i} fill={d.isUser ? '#fb72b4' : '#ecd9e6'} />
+                  <Cell key={i} fill={d.isUser ? '#ef9d6b' : '#d8d3c0'} />
                 ))}
               </Bar>
             </BarChart>

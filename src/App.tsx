@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Mascot from './components/Mascot';
+import Scenery from './components/Scenery';
 
 // Code-split heavier routes (charts, exam runner) so the first paint stays light.
 const Exam = lazy(() => import('./pages/Exam'));
@@ -20,20 +21,21 @@ interface NavItem {
 }
 
 const NAV: NavItem[] = [
-  { to: '/', label: '首頁', icon: '🏠', tint: '#ffe4f0', end: true },
-  { to: '/exam', label: '模擬測驗', icon: '📝', tint: '#e8e2ff' },
-  { to: '/bank', label: '題庫', icon: '📚', tint: '#dcfaef' },
-  { to: '/trends', label: '趨勢分析', icon: '📈', tint: '#fff0d6' },
-  { to: '/performance', label: '成績分析', icon: '🎯', tint: '#ffe1ec' },
-  { to: '/resources', label: '官方資源', icon: '🔗', tint: '#dff0ff' },
-  { to: '/settings', label: '設定', icon: '⚙️', tint: '#efe9f3' },
+  { to: '/', label: '首頁', icon: '🏠', tint: '#d8ebef', end: true },
+  { to: '/exam', label: '模擬測驗', icon: '📝', tint: '#e6e0f2' },
+  { to: '/bank', label: '題庫', icon: '📚', tint: '#dcefdd' },
+  { to: '/trends', label: '趨勢分析', icon: '📈', tint: '#fbeccf' },
+  { to: '/performance', label: '成績分析', icon: '🎯', tint: '#fbe0d2' },
+  { to: '/resources', label: '官方資源', icon: '🔗', tint: '#d6ebf2' },
+  { to: '/settings', label: '設定', icon: '⚙️', tint: '#ece7da' },
 ];
 
 export default function App() {
   return (
     <div className="min-h-full flex flex-col md:flex-row">
+      <Scenery />
       {/* Sidebar (desktop) */}
-      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-brand-100 bg-white/70 p-4 backdrop-blur-sm">
+      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-ink/10 bg-cream/70 p-4 backdrop-blur-sm">
         <div className="flex items-center gap-3 px-2 pb-6 pt-2">
           <Mascot size={44} />
           <div>
@@ -51,7 +53,7 @@ export default function App() {
                 `flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition ${
                   isActive
                     ? 'bg-gradient-to-r from-brand-400 to-brand-500 text-white shadow-cute'
-                    : 'text-ink hover:bg-brand-50'
+                    : 'text-ink hover:bg-brand-100/60'
                 }`
               }
             >
@@ -72,7 +74,7 @@ export default function App() {
       </aside>
 
       {/* Mobile header */}
-      <header className="md:hidden sticky top-0 z-10 flex items-center gap-2 border-b border-brand-100 bg-white/85 px-4 py-3 backdrop-blur">
+      <header className="md:hidden sticky top-0 z-10 flex items-center gap-2 border-b border-ink/10 bg-cream/85 px-4 py-3 backdrop-blur">
         <Mascot size={30} />
         <span className="font-display font-bold text-ink">生物奧林匹亞模擬複習</span>
       </header>
@@ -99,7 +101,7 @@ export default function App() {
       </main>
 
       {/* Bottom nav (mobile) */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 grid grid-cols-7 border-t border-brand-100 bg-white/90 backdrop-blur">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 grid grid-cols-7 border-t border-ink/10 bg-cream/90 backdrop-blur">
         {NAV.map((n) => (
           <NavLink
             key={n.to}
@@ -115,7 +117,7 @@ export default function App() {
               <>
                 <span
                   className="flex h-7 w-7 items-center justify-center rounded-xl text-base"
-                  style={{ background: isActive ? '#ffe4f0' : 'transparent' }}
+                  style={{ background: isActive ? '#d8ebef' : 'transparent' }}
                 >
                   {n.icon}
                 </span>

@@ -7,10 +7,10 @@ import { DOMAIN_MAP } from '../data/domains';
 import CountdownCard from '../components/CountdownCard';
 
 const LEVEL_LABEL: Record<string, { text: string; color: string; emoji: string }> = {
-  beginner: { text: '入門', color: '#fb9a3c', emoji: '🌱' },
-  developing: { text: '發展中', color: '#f4509b', emoji: '🌸' },
-  competitive: { text: '具競爭力', color: '#38bdf8', emoji: '⭐' },
-  frontrunner: { text: '複賽前段', color: '#22c55e', emoji: '🏆' },
+  beginner: { text: '入門', color: '#e0a458', emoji: '🌱' },
+  developing: { text: '發展中', color: '#5ca5b5', emoji: '🌿' },
+  competitive: { text: '具競爭力', color: '#43899b', emoji: '⭐' },
+  frontrunner: { text: '複賽前段', color: '#7fb069', emoji: '🏆' },
 };
 
 export default function Dashboard() {
@@ -25,7 +25,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="card bg-gradient-to-br from-brand-50 to-white">
+      <div className="card bg-gradient-to-br from-brand-100/70 to-cream">
         <h1 className="font-display text-2xl font-bold text-ink">準備儀表板 🧫</h1>
         <p className="mt-1 text-sm text-ink-soft">
           目標：穩定達到 <span className="font-bold text-brand-500">複賽前段</span>、一步步邁向國手 ✨
