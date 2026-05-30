@@ -566,18 +566,18 @@ export default function Exam() {
         <div className="mt-5 h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dist}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffe1ee" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3d4ab" />
               <XAxis dataKey="bin" stroke="#94a3b8" fontSize={10} interval={1} />
               <YAxis stroke="#94a3b8" fontSize={10} allowDecimals={false} />
               <Tooltip
-                contentStyle={{ background: '#ffffff', border: '2px solid #ffc6df', borderRadius: 16, color: '#5b4660' }}
+                contentStyle={{ background: '#fbf3df', border: '2px solid #3a2f28', borderRadius: 14, color: '#43352b' }}
                 labelFormatter={(l) => `分數 ${l}–${Number(l) + 5}%`}
               />
               <ReferenceLine
                 x={`${Math.min(95, Math.floor(percentage / 5) * 5)}`}
-                stroke="#f4509b"
+                stroke="#c8714e"
                 strokeWidth={2}
-                label={{ value: '你', fill: '#f4509b', fontSize: 11, position: 'top' }}
+                label={{ value: '你', fill: '#b9573e', fontSize: 11, position: 'top' }}
               />
               <Bar dataKey="人數">
                 {dist.map((d, i) => (

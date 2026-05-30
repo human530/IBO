@@ -7,10 +7,10 @@ import { DOMAIN_MAP } from '../data/domains';
 import CountdownCard from '../components/CountdownCard';
 
 const LEVEL_LABEL: Record<string, { text: string; color: string; emoji: string }> = {
-  beginner: { text: '入門', color: '#ffb86b', emoji: '🌱' },
-  developing: { text: '發展中', color: '#ff8fc0', emoji: '🌸' },
-  competitive: { text: '具競爭力', color: '#7cc4ef', emoji: '⭐' },
-  frontrunner: { text: '複賽前段', color: '#86d98f', emoji: '🏆' },
+  beginner: { text: '入門', color: '#d9a441', emoji: '🌱' },
+  developing: { text: '發展中', color: '#c8714e', emoji: '🍂' },
+  competitive: { text: '具競爭力', color: '#6c9b8e', emoji: '⭐' },
+  frontrunner: { text: '複賽前段', color: '#6e8a4a', emoji: '🏆' },
 };
 
 export default function Dashboard() {

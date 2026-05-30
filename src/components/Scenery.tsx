@@ -1,58 +1,68 @@
 /**
- * A playful children's-drawing backdrop: a smiling sun and simple rolling
- * hills with crayon outlines, in soft pastels. Decorative, fixed behind all
- * content.
+ * A cozy hand-drawn survival/storybook backdrop: sketchy ink doodles of a sun,
+ * a little tree and grass tufts on a parchment ground. Decorative, fixed
+ * behind all content.
  */
-const LINE = '#6b5570';
+const INK = '#3a2f28';
 
 export default function Scenery() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* smiling sun */}
-      <svg className="absolute right-6 top-6 h-24 w-24 opacity-80" viewBox="0 0 100 100">
-        <g stroke={LINE} strokeWidth="3" strokeLinecap="round">
-          {Array.from({ length: 12 }).map((_, i) => {
-            const a = (i * Math.PI) / 6;
+      {/* hand-drawn sun */}
+      <svg className="absolute right-7 top-7 h-20 w-20 opacity-70" viewBox="0 0 100 100">
+        <g stroke={INK} strokeWidth="2.5" strokeLinecap="round" fill="none">
+          {Array.from({ length: 10 }).map((_, i) => {
+            const a = (i * Math.PI) / 5;
             return (
               <line
                 key={i}
-                x1={50 + Math.cos(a) * 34}
-                y1={50 + Math.sin(a) * 34}
-                x2={50 + Math.cos(a) * 44}
-                y2={50 + Math.sin(a) * 44}
+                x1={50 + Math.cos(a) * 33}
+                y1={50 + Math.sin(a) * 33}
+                x2={50 + Math.cos(a) * 43}
+                y2={50 + Math.sin(a) * 43}
               />
             );
           })}
-          <circle cx="50" cy="50" r="28" fill="#ffe08a" />
-          <circle cx="42" cy="46" r="2.6" fill={LINE} stroke="none" />
-          <circle cx="58" cy="46" r="2.6" fill={LINE} stroke="none" />
-          <path d="M41 56c4 5 14 5 18 0" fill="none" />
+          <circle cx="50" cy="50" r="26" fill="#e3c25a" />
         </g>
       </svg>
 
-      {/* little flower bottom-left */}
-      <svg className="absolute bottom-[26vh] left-6 h-16 w-16 opacity-70" viewBox="0 0 60 60">
-        <g stroke={LINE} strokeWidth="2.5">
-          <line x1="30" y1="58" x2="30" y2="34" />
-          {Array.from({ length: 6 }).map((_, i) => {
-            const a = (i * Math.PI) / 3;
-            return (
-              <ellipse key={i} cx={30 + Math.cos(a) * 9} cy={26 + Math.sin(a) * 9} rx="6" ry="6" fill="#ffb3d6" />
-            );
-          })}
-          <circle cx="30" cy="26" r="5" fill="#ffe08a" />
+      {/* little tree bottom-left */}
+      <svg className="absolute bottom-[20vh] left-7 h-24 w-24 opacity-70" viewBox="0 0 100 100">
+        <g stroke={INK} strokeWidth="2.5">
+          <rect x="44" y="60" width="12" height="28" rx="3" fill="#b08453" />
+          <circle cx="50" cy="44" r="22" fill="#8aa35f" />
+          <circle cx="34" cy="52" r="13" fill="#8aa35f" />
+          <circle cx="66" cy="52" r="13" fill="#8aa35f" />
         </g>
       </svg>
 
-      {/* rolling hills with outline */}
+      {/* parchment ground with grass tufts */}
       <svg
         className="absolute bottom-0 left-0 w-full"
-        viewBox="0 0 1440 320"
+        viewBox="0 0 1440 220"
         preserveAspectRatio="none"
-        style={{ height: '34vh' }}
+        style={{ height: '26vh' }}
       >
-        <path d="M0 250 C 280 180 460 290 760 250 C 1040 214 1200 286 1440 250 L1440 320 L0 320 Z" fill="#ffd9ec" opacity="0.7" />
-        <path d="M0 290 C 300 250 520 320 880 296 C 1120 282 1300 312 1440 300 L1440 320 L0 320 Z" fill="#c9f3df" opacity="0.8" />
+        <path
+          d="M0 120 C 280 80 520 150 820 120 C 1080 96 1260 140 1440 118 L1440 220 L0 220 Z"
+          fill="#d9c79a"
+          stroke="#3a2f28"
+          strokeWidth="2"
+        />
+        <g stroke="#3a2f28" strokeWidth="2" strokeLinecap="round" opacity="0.5">
+          {Array.from({ length: 22 }).map((_, i) => {
+            const x = 40 + i * 64;
+            const y = 150 + (i % 3) * 8;
+            return (
+              <g key={i}>
+                <line x1={x} y1={y} x2={x - 5} y2={y - 12} />
+                <line x1={x} y1={y} x2={x} y2={y - 15} />
+                <line x1={x} y1={y} x2={x + 5} y2={y - 12} />
+              </g>
+            );
+          })}
+        </g>
       </svg>
     </div>
   );

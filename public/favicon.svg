@@ -1,20 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffc6df"/>
-      <stop offset="1" stop-color="#ff9ec8"/>
-    </linearGradient>
-    <clipPath id="r"><rect width="64" height="64" rx="16"/></clipPath>
+    <clipPath id="r"><rect width="64" height="64" rx="14"/></clipPath>
   </defs>
   <g clip-path="url(#r)">
-    <rect width="64" height="64" fill="url(#bg)"/>
-    <!-- cute cell mascot with crayon outline -->
-    <circle cx="32" cy="33" r="18" fill="#fff6fb" stroke="#6b5570" stroke-width="2.5"/>
-    <circle cx="32" cy="34" r="7" fill="#ffd1e6"/>
-    <circle cx="28" cy="33" r="1.8" fill="#5b4660"/>
-    <circle cx="36" cy="33" r="1.8" fill="#5b4660"/>
-    <path d="M28 38c2 2.4 6 2.4 8 0" stroke="#e23080" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <circle cx="25.5" cy="36.5" r="2" fill="#ff9ec8" opacity="0.8"/>
-    <circle cx="38.5" cy="36.5" r="2" fill="#ff9ec8" opacity="0.8"/>
+    <rect width="64" height="64" fill="#e8d6a8"/>
+    <rect width="64" height="64" fill="none" stroke="#3a2f28" stroke-width="4"/>
+    <!-- hand-drawn cell mascot -->
+    <circle cx="32" cy="33" r="17" fill="#fbf3df" stroke="#3a2f28" stroke-width="2.6"/>
+    <circle cx="32" cy="34" r="6.5" fill="#e0c79a"/>
+    <circle cx="28" cy="33" r="1.7" fill="#3a2f28"/>
+    <circle cx="36" cy="33" r="1.7" fill="#3a2f28"/>
+    <path d="M28 38c2 2.3 6 2.3 8 0" stroke="#b9573e" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="25.5" cy="36.5" r="1.8" fill="#d98f6e" opacity="0.7"/>
+    <circle cx="38.5" cy="36.5" r="1.8" fill="#d98f6e" opacity="0.7"/>
   </g>
 </svg>

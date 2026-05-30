@@ -4,51 +4,52 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 粉嫩主色 (soft candy pink)
+        // 苔綠主色 (cozy moss / primary)
         brand: {
-          50: '#fff1f7',
-          100: '#ffe1ee',
-          200: '#ffc6df',
-          300: '#ff9ec8',
-          400: '#fb72b4',
-          500: '#f4509b',
-          600: '#e23080',
-          700: '#bd1e66',
-          800: '#9c1c56',
-          900: '#821a4a',
+          50: '#f2f4ea',
+          100: '#e3e8d2',
+          200: '#c9d4ac',
+          300: '#a9bd82',
+          400: '#8aa35f',
+          500: '#6f8a48',
+          600: '#586f39',
+          700: '#46582f',
+          800: '#3a4928',
+          900: '#2f3a23',
         },
-        // 粉白紙底
-        cream: '#fff6fb',
-        // 兒童畫風的描邊色 (crayon outline)
-        line: '#6b5570',
+        // 羊皮紙底色 (warm parchment)
+        cream: '#f5ead0',
+        // 手繪墨線描邊 (sketchy ink outline)
+        line: '#3a2f28',
+        // 大地色點綴 (earth-tone accents; token name kept as `candy`)
         candy: {
-          pink: '#ffb3d6',
-          lavender: '#c9b8f0',
-          mint: '#9ae8c8',
-          peach: '#ffc09a',
-          sky: '#a9d8f5',
-          lemon: '#ffe08a',
+          pink: '#c97b6a',
+          lavender: '#998aa6',
+          mint: '#8bbf9a',
+          peach: '#e0a35e',
+          sky: '#7fa8a0',
+          lemon: '#e3c25a',
         },
         ink: {
-          DEFAULT: '#5b4660',
-          soft: '#8a7593',
-          faint: '#bda9c4',
+          DEFAULT: '#43352b',
+          soft: '#7a6a58',
+          faint: '#a8967f',
         },
-        meadow: '#8fd6a0',
-        sunset: '#ff9f6b',
+        wood: '#b08453',
+        clay: '#b9573e',
       },
       fontFamily: {
         sans: ['"Noto Sans TC"', 'system-ui', 'sans-serif'],
-        // 手寫童趣字體
-        display: ['"Klee One"', '"Noto Sans TC"', 'system-ui', 'sans-serif'],
+        // 手寫繪本字體
+        display: ['"Klee One"', '"Noto Sans TC"', 'system-ui', 'serif'],
       },
       boxShadow: {
-        // 卡通貼紙感的偏移實心陰影
-        soft: '4px 5px 0 -1px rgba(244, 80, 155, 0.22)',
-        cute: '3px 3px 0 0 rgba(107, 85, 112, 0.22)',
+        // 手繪墨線的偏移實心陰影
+        soft: '4px 5px 0 -1px rgba(58, 47, 40, 0.28)',
+        cute: '3px 3px 0 0 rgba(58, 47, 40, 0.3)',
       },
       borderRadius: {
-        '4xl': '1.9rem',
+        '4xl': '1.4rem',
       },
     },
   },
