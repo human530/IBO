@@ -4,50 +4,52 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 天空之城藍 (clean Ghibli sky-blue / primary)
+        // 苔綠主色 (cozy moss / primary)
         brand: {
-          50: '#f1f7fc',
-          100: '#dcebf8',
-          200: '#bedaef',
-          300: '#92c1e3',
-          400: '#5fa1d3',
-          500: '#3d83bf',
-          600: '#2f69a0',
-          700: '#295681',
-          800: '#26486a',
-          900: '#233d59',
+          50: '#f2f4ea',
+          100: '#e3e8d2',
+          200: '#c9d4ac',
+          300: '#a9bd82',
+          400: '#8aa35f',
+          500: '#6f8a48',
+          600: '#586f39',
+          700: '#46582f',
+          800: '#3a4928',
+          900: '#2f3a23',
         },
-        // 雲白紙感底色 (soft cloud white)
-        cream: '#f7fbff',
-        // 點綴色 (kept the `candy` token name to minimise churn)
+        // 羊皮紙底色 (warm parchment)
+        cream: '#f5ead0',
+        // 手繪墨線描邊 (sketchy ink outline)
+        line: '#3a2f28',
+        // 大地色點綴 (earth-tone accents; token name kept as `candy`)
         candy: {
-          pink: '#e7a3a8',
-          lavender: '#a9b8e0',
-          mint: '#9fd6cf',
-          peach: '#f0b27a',
-          sky: '#a9d6e5',
-          lemon: '#f2d281',
+          pink: '#c97b6a',
+          lavender: '#998aa6',
+          mint: '#8bbf9a',
+          peach: '#e0a35e',
+          sky: '#7fa8a0',
+          lemon: '#e3c25a',
         },
-        // 冷調墨藍文字
         ink: {
-          DEFAULT: '#324155',
-          soft: '#5f7088',
-          faint: '#93a3b8',
+          DEFAULT: '#43352b',
+          soft: '#7a6a58',
+          faint: '#a8967f',
         },
-        meadow: '#7fb069',
-        sunset: '#ef9d6b',
+        wood: '#b08453',
+        clay: '#b9573e',
       },
       fontFamily: {
         sans: ['"Noto Sans TC"', 'system-ui', 'sans-serif'],
-        // 手寫故事感字體 (Klee One supports Traditional Chinese)
+        // 手寫繪本字體
         display: ['"Klee One"', '"Noto Sans TC"', 'system-ui', 'serif'],
       },
       boxShadow: {
-        soft: '0 12px 30px -14px rgba(79, 70, 54, 0.35)',
-        cute: '0 5px 0 0 rgba(54, 111, 128, 0.18)',
+        // 手繪墨線的偏移實心陰影
+        soft: '4px 5px 0 -1px rgba(58, 47, 40, 0.28)',
+        cute: '3px 3px 0 0 rgba(58, 47, 40, 0.3)',
       },
       borderRadius: {
-        '4xl': '2rem',
+        '4xl': '1.4rem',
       },
     },
   },

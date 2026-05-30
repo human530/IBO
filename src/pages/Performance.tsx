@@ -78,9 +78,9 @@ export default function Performance() {
               <Line
                 type="monotone"
                 dataKey="正確率"
-                stroke="#43899b"
+                stroke="#6e8a4a"
                 strokeWidth={3}
-                dot={{ r: 4, fill: '#43899b' }}
+                dot={{ r: 4, fill: '#6e8a4a' }}
                 activeDot={{ r: 6 }}
               />
             </LineChart>
@@ -96,7 +96,7 @@ export default function Performance() {
               <PolarGrid stroke={CHART.grid} />
               <PolarAngleAxis dataKey="domain" tick={{ fill: '#8a7593', fontSize: 10 }} />
               <PolarRadiusAxis domain={[0, 100]} tick={{ fill: '#b8a9bf', fontSize: 9 }} />
-              <Radar dataKey="掌握度" stroke="#43899b" fill="#5ca5b5" fillOpacity={0.4} />
+              <Radar dataKey="掌握度" stroke="#6e8a4a" fill="#5ca5b5" fillOpacity={0.4} />
               <Tooltip contentStyle={CHART.tooltip} />
             </RadarChart>
           </ResponsiveContainer>

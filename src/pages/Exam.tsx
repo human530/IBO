@@ -21,6 +21,7 @@ import type {
 } from '../types';
 import { DOMAINS } from '../data/domains';
 import { QUESTIONS } from '../data/questions';
+import { IBO_STYLE } from '../data/iboStyle';
 import {
   buildAdaptiveExam,
   buildExam,
@@ -66,6 +67,7 @@ export default function Exam() {
   const [phase, setPhase] = useState<Phase>('config');
   const [round, setRound] = useState<Round>('preliminary');
   const [mode, setMode] = useState<SessionMode>(initialAdaptive ? 'adaptive' : 'mock');
+  const [paperStyle, setPaperStyle] = useState<'general' | 'ibo'>('general');
   const [inputMode, setInputMode] = useState<InputMode>('select');
   const [timed, setTimed] = useState(true);
   const [selectedDomains, setSelectedDomains] = useState<DomainId[]>([]);
@@ -97,12 +99,18 @@ export default function Exam() {
   }
 
   function start() {
-    const config = { round, domains: selectedDomains, count };
+    const usingIbo = paperStyle === 'ibo';
+    const pool = usingIbo ? IBO_STYLE : QUESTIONS;
+    const config = {
+      round: (usingIbo ? 'semifinal' : round) as Round,
+      domains: selectedDomains,
+      count,
+    };
     let qs =
-      mode === 'adaptive'
+      mode === 'adaptive' && !usingIbo
         ? buildAdaptiveExam(QUESTIONS, attempts, config)
-        : buildExam(QUESTIONS, config);
-    if (includeVariants) {
+        : buildExam(pool, config);
+    if (includeVariants && !usingIbo) {
       qs = [...qs, ...generateQuestionSet(2, Date.now())];
     }
     if (qs.length === 0) return;
@@ -250,6 +258,29 @@ export default function Exam() {
           </div>
 
           <div>
+            <div className="mb-2 text-sm font-medium">題型</div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setPaperStyle('general')}
+                className={paperStyle === 'general' ? 'btn-primary' : 'btn-ghost'}
+              >
+                一般題
+              </button>
+              <button
+                onClick={() => setPaperStyle('ibo')}
+                className={paperStyle === 'ibo' ? 'btn-primary' : 'btn-ghost'}
+              >
+                🧬 IBO 風格（多敘述）
+              </button>
+            </div>
+            {paperStyle === 'ibo' && (
+              <p className="mt-2 text-xs text-ink-soft">
+                仿國際生物奧林匹亞理論卷：每題給情境／數據，逐一判斷各敘述對錯，採官方逐敘述部分給分。
+              </p>
+            )}
+          </div>
+
+          <div>
             <div className="mb-2 text-sm font-medium">作答模式</div>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -337,10 +368,21 @@ export default function Exam() {
           <button
             className="btn-ghost"
             onClick={() => {
-              const base = buildExam(QUESTIONS, { round, domains: selectedDomains, count });
-              const qs = includeVariants ? [...base, ...generateQuestionSet(2, Date.now())] : base;
+              const usingIbo = paperStyle === 'ibo';
+              const pool = usingIbo ? IBO_STYLE : QUESTIONS;
+              const base = buildExam(pool, {
+                round: (usingIbo ? 'semifinal' : round) as Round,
+                domains: selectedDomains,
+                count,
+              });
+              const qs =
+                includeVariants && !usingIbo
+                  ? [...base, ...generateQuestionSet(2, Date.now())]
+                  : base;
               downloadPdf(
-                `生物奧林匹亞${round === 'preliminary' ? '初賽' : '複賽'}模擬考卷`,
+                usingIbo
+                  ? 'IBO 風格模擬考卷'
+                  : `生物奧林匹亞${round === 'preliminary' ? '初賽' : '複賽'}模擬考卷`,
                 qs,
               );
             }}
@@ -524,18 +566,18 @@ export default function Exam() {
         <div className="mt-5 h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dist}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#dbe7f2" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e3d4ab" />
               <XAxis dataKey="bin" stroke="#94a3b8" fontSize={10} interval={1} />
               <YAxis stroke="#94a3b8" fontSize={10} allowDecimals={false} />
               <Tooltip
-                contentStyle={{ background: '#ffffff', border: '1px solid #cfe2f2', borderRadius: 16, color: '#324155' }}
+                contentStyle={{ background: '#fbf3df', border: '2px solid #3a2f28', borderRadius: 14, color: '#43352b' }}
                 labelFormatter={(l) => `分數 ${l}–${Number(l) + 5}%`}
               />
               <ReferenceLine
                 x={`${Math.min(95, Math.floor(percentage / 5) * 5)}`}
-                stroke="#ef9d6b"
+                stroke="#c8714e"
                 strokeWidth={2}
-                label={{ value: '你', fill: '#ef9d6b', fontSize: 11, position: 'top' }}
+                label={{ value: '你', fill: '#b9573e', fontSize: 11, position: 'top' }}
               />
               <Bar dataKey="人數">
                 {dist.map((d, i) => (

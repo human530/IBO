@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { DomainId } from '../types';
 import { DOMAINS, DOMAIN_MAP } from '../data/domains';
 import { DOMAIN_NOTES } from '../data/notes';
+import { DOMAIN_BOOKS } from '../data/strategy';
 import PrintableNotes from '../components/PrintableNotes';
 
 export default function Notes() {
@@ -59,6 +60,9 @@ export default function Notes() {
 
       <p className="rounded-2xl border border-brand-100 bg-brand-50/50 p-3 text-xs text-ink-soft">
         {meta.description}
+      </p>
+      <p className="-mt-2 rounded-2xl bg-candy-lemon/20 px-3 py-2 text-xs text-ink-soft">
+        📖 對應課本：{DOMAIN_BOOKS[domain].campbell} · 延伸：{DOMAIN_BOOKS[domain].also}
       </p>
 
       {/* notes */}
