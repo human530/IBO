@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { DomainId, Round } from '../types';
 import { DOMAINS, DOMAIN_MAP } from '../data/domains';
+import { DomainIcon } from '../components/DomainBadge';
 import { QUESTIONS } from '../data/questions';
 import QuestionView from '../components/QuestionView';
 
@@ -61,7 +62,7 @@ export default function Bank() {
                 color: domain === d.id ? '#fff' : d.color,
               }}
             >
-              {d.emoji} {d.name}
+              <DomainIcon domain={d.id} size={14} /> {d.name}
             </button>
           ))}
         </div>
@@ -110,7 +111,7 @@ export default function Bank() {
                     color: DOMAIN_MAP[q.domain].color,
                   }}
                 >
-                  {DOMAIN_MAP[q.domain].emoji} {DOMAIN_MAP[q.domain].name}
+                  <DomainIcon domain={q.domain} size={14} /> {DOMAIN_MAP[q.domain].name}
                 </span>
                 <span>{q.subtopic}</span>
                 {q.year > 0 && <span>· {q.year}</span>}

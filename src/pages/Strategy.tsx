@@ -1,5 +1,6 @@
 import { READING_LIST, SUCCESS_FACTORS, DOMAIN_BOOKS } from '../data/strategy';
 import { DOMAINS } from '../data/domains';
+import { DomainIcon } from '../components/DomainBadge';
 
 const LEVEL_COLOR: Record<string, string> = {
   入門: '#86efac',
@@ -71,7 +72,7 @@ export default function Strategy() {
             return (
               <div key={d.id} className="flex items-start gap-2 text-sm">
                 <span className="shrink-0" style={{ color: d.color }}>
-                  {d.emoji} {d.name}
+                  <DomainIcon domain={d.id} size={14} /> {d.name}
                 </span>
                 <span className="text-ink-soft">
                   ｜{ref.campbell} <span className="text-ink-faint">· 延伸：{ref.also}</span>

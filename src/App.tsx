@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Mascot from './components/Mascot';
-import Scenery from './components/Scenery';
+import DoodleIcon, { type DoodleName } from './components/DoodleIcon';
 
 // Code-split heavier routes (charts, exam runner) so the first paint stays light.
 const Exam = lazy(() => import('./pages/Exam'));
@@ -17,27 +17,26 @@ const Settings = lazy(() => import('./pages/Settings'));
 interface NavItem {
   to: string;
   label: string;
-  icon: string;
+  icon: DoodleName;
   tint: string;
   end?: boolean;
 }
 
 const NAV: NavItem[] = [
-  { to: '/', label: '首頁', icon: '🏠', tint: '#d8ebef', end: true },
-  { to: '/exam', label: '模擬測驗', icon: '📝', tint: '#e6e0f2' },
-  { to: '/bank', label: '題庫', icon: '📚', tint: '#dcefdd' },
-  { to: '/notes', label: '複習筆記', icon: '📒', tint: '#e6e0f2' },
-  { to: '/trends', label: '趨勢分析', icon: '📈', tint: '#fbeccf' },
-  { to: '/performance', label: '成績分析', icon: '🎯', tint: '#fbe0d2' },
-  { to: '/strategy', label: '成功心法', icon: '🏅', tint: '#fdeccf' },
-  { to: '/resources', label: '官方資源', icon: '🔗', tint: '#d6ebf2' },
-  { to: '/settings', label: '設定', icon: '⚙️', tint: '#ece7da' },
+  { to: '/', label: '首頁', icon: 'home', tint: '#e7dcbd', end: true },
+  { to: '/exam', label: '模擬測驗', icon: 'exam', tint: '#e3d7b6' },
+  { to: '/bank', label: '題庫', icon: 'book', tint: '#dfe6c9' },
+  { to: '/notes', label: '複習筆記', icon: 'notes', tint: '#e8ddbf' },
+  { to: '/trends', label: '趨勢分析', icon: 'trends', tint: '#ecdcb4' },
+  { to: '/performance', label: '成績分析', icon: 'target', tint: '#ecd6c0' },
+  { to: '/strategy', label: '成功心法', icon: 'medal', tint: '#ecdcb0' },
+  { to: '/resources', label: '官方資源', icon: 'link', tint: '#dde6d2' },
+  { to: '/settings', label: '設定', icon: 'gear', tint: '#e3dcc8' },
 ];
 
 export default function App() {
   return (
     <div className="min-h-full flex flex-col md:flex-row">
-      <Scenery />
       {/* Sidebar (desktop) */}
       <aside className="hidden md:flex md:w-64 md:flex-col border-r border-ink/10 bg-cream/70 p-4 backdrop-blur-sm">
         <div className="flex items-center gap-3 px-2 pb-6 pt-2">
@@ -64,10 +63,10 @@ export default function App() {
               {({ isActive }) => (
                 <>
                   <span
-                    className="icon-chip"
-                    style={{ background: isActive ? 'rgba(255,255,255,0.25)' : n.tint }}
+                    className="icon-chip text-ink"
+                    style={{ background: isActive ? 'rgba(255,255,255,0.4)' : n.tint }}
                   >
-                    {n.icon}
+                    <DoodleIcon name={n.icon} size={18} />
                   </span>
                   {n.label}
                 </>
@@ -122,10 +121,10 @@ export default function App() {
             {({ isActive }) => (
               <>
                 <span
-                  className="flex h-7 w-7 items-center justify-center rounded-xl text-base"
-                  style={{ background: isActive ? '#d8ebef' : 'transparent' }}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border-2 border-line/40 text-ink"
+                  style={{ background: isActive ? '#e7dcbd' : 'transparent' }}
                 >
-                  {n.icon}
+                  <DoodleIcon name={n.icon} size={15} />
                 </span>
                 {n.label}
               </>

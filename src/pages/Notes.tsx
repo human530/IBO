@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { DomainId } from '../types';
 import { DOMAINS, DOMAIN_MAP } from '../data/domains';
+import { DomainIcon } from '../components/DomainBadge';
 import { DOMAIN_NOTES } from '../data/notes';
 import { DOMAIN_BOOKS } from '../data/strategy';
 import PrintableNotes from '../components/PrintableNotes';
@@ -38,7 +39,7 @@ export default function Notes() {
               color: domain === d.id ? '#fff' : d.color,
             }}
           >
-            {d.emoji} {d.name}
+            <DomainIcon domain={d.id} size={14} /> {d.name}
           </button>
         ))}
       </div>
@@ -49,7 +50,7 @@ export default function Notes() {
             className="pill"
             style={{ backgroundColor: `${meta.color}22`, color: meta.color }}
           >
-            {meta.emoji} {meta.name}
+            <DomainIcon domain={domain} size={14} /> {meta.name}
           </span>
           <span>{notes.length} 則重點</span>
         </div>
