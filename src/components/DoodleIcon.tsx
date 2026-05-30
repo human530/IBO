@@ -14,6 +14,7 @@ export type DoodleName =
   | 'gear'
   | 'camp'
   | 'shelf'
+  | 'formula'
   | 'cell'
   | 'plant'
   | 'animal'
@@ -94,6 +95,12 @@ const PATHS: Record<DoodleName, JSX.Element> = {
       <rect x="10" y="4" width="4" height="14" rx="1" />
       <path d="M16 5l3 .8-2.5 12.5-3-.8z" />
       <path d="M4 20h16" />
+    </>
+  ),
+  formula: (
+    <>
+      <path d="M4 14l2 5 3-13h9" />
+      <path d="M14 10l5 6M19 10l-5 6" />
     </>
   ),
   cell: (

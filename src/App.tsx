@@ -9,6 +9,7 @@ const Exam = lazy(() => import('./pages/Exam'));
 const Bank = lazy(() => import('./pages/Bank'));
 const Notes = lazy(() => import('./pages/Notes'));
 const Books = lazy(() => import('./pages/Books'));
+const Formulas = lazy(() => import('./pages/Formulas'));
 const Camp = lazy(() => import('./pages/Camp'));
 const Trends = lazy(() => import('./pages/Trends'));
 const Performance = lazy(() => import('./pages/Performance'));
@@ -30,6 +31,7 @@ const NAV: NavItem[] = [
   { to: '/bank', label: '題庫', icon: 'book', tint: '#dfe6c9' },
   { to: '/notes', label: '複習筆記', icon: 'notes', tint: '#e8ddbf' },
   { to: '/books', label: '教材書庫', icon: 'shelf', tint: '#e3e6cf' },
+  { to: '/formulas', label: '公式速查', icon: 'formula', tint: '#e7dcc0' },
   { to: '/camp', label: '選拔營特訓', icon: 'camp', tint: '#ecd2bc' },
   { to: '/trends', label: '趨勢分析', icon: 'trends', tint: '#ecdcb4' },
   { to: '/performance', label: '成績分析', icon: 'target', tint: '#ecd6c0' },
@@ -100,6 +102,7 @@ export default function App() {
               <Route path="/bank" element={<Bank />} />
               <Route path="/notes" element={<Notes />} />
               <Route path="/books" element={<Books />} />
+              <Route path="/formulas" element={<Formulas />} />
               <Route path="/camp" element={<Camp />} />
               <Route path="/trends" element={<Trends />} />
               <Route path="/performance" element={<Performance />} />

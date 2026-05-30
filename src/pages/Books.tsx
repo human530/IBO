@@ -121,14 +121,42 @@ function ChapterBody({ note, color }: { note: ChapterNote; color: string }) {
         <span className="text-xs font-bold text-brand-600">🧒 秒懂</span>
         <p className="mt-0.5 text-[15px] font-medium leading-relaxed text-ink">{note.simple}</p>
       </div>
-      <ul className="mt-2 flex flex-col gap-1.5">
-        {note.points.map((p, i) => (
-          <li key={i} className="flex gap-2 text-sm leading-relaxed text-ink">
-            <span style={{ color }}>▸</span>
-            <span>{p}</span>
-          </li>
-        ))}
-      </ul>
+
+      <div className="mt-3">
+        <div className="mb-1 text-xs font-bold" style={{ color }}>
+          📖 詳細理解
+        </div>
+        <p className="whitespace-pre-wrap text-sm leading-relaxed text-ink">{note.detail}</p>
+      </div>
+
+      <div className="mt-3">
+        <div className="mb-1 text-xs font-bold text-ink-soft">重點整理</div>
+        <ul className="flex flex-col gap-1.5">
+          {note.points.map((p, i) => (
+            <li key={i} className="flex gap-2 text-sm leading-relaxed text-ink">
+              <span style={{ color }}>▸</span>
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {note.formulas && note.formulas.length > 0 && (
+        <div className="mt-3 rounded-xl border-2 border-line/45 bg-[#fbf3df] p-3">
+          <div className="mb-1.5 text-xs font-bold text-clay">🧮 必考公式</div>
+          <div className="flex flex-col gap-2">
+            {note.formulas.map((f) => (
+              <div key={f.name} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <span className="text-xs font-bold text-ink-soft">{f.name}</span>
+                <code className="rounded-md border border-line/40 bg-white px-2 py-0.5 font-mono text-sm font-semibold text-ink">
+                  {f.expr}
+                </code>
+                {f.note && <span className="text-[11px] text-ink-faint">{f.note}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
