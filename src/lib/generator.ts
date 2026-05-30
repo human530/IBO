@@ -172,3 +172,110 @@ export function generateHardyWeinbergVariant(seed: number): Question {
     generated: true,
   };
 }
+
+/** Recombination → map distance variant. */
+export function generateRecombinationVariant(seed: number): Question {
+  let s = (seed % 2147483647) || 1;
+  const next = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const r = [6, 8, 10, 12, 15, 18, 20, 24][Math.floor(next() * 8)];
+  const opts = new Set<number>([r]);
+  while (opts.size < 4) {
+    const c = r + Math.round((next() - 0.5) * 20);
+    if (c > 0 && c < 50) opts.add(c);
+  }
+  const arr = seededShuffle([...opts], seed + 3);
+  const letters = ['A', 'B', 'C', 'D'];
+  const options = arr.map((v, i) => ({ id: letters[i], text: `${v} cM` }));
+  const answer = options.find((o) => o.text === `${r} cM`)!.id;
+  return {
+    id: `gen-rec-${seed}`,
+    year: 0,
+    round: 'semifinal',
+    domain: 'genetics',
+    subtopic: '連鎖與重組',
+    difficulty: 4,
+    type: 'single',
+    stem: `兩基因位於同一染色體，測交後重組型個體佔 ${r}%，則兩基因間的圖距約為？`,
+    options,
+    answer: [answer],
+    explanation: `重組率即等於圖距：重組型佔 ${r}% → 圖距約 ${r} cM。`,
+    simple: `重組的比例就是「地圖上的距離」。重組 ${r}% 就是相距 ${r} 公分摩根(cM)，兩基因離越遠越容易被剪開重組。`,
+    concepts: ['連鎖', '重組率', '圖距', '測交'],
+    generated: true,
+  };
+}
+
+/** Enzyme inhibitor → Km/Vmax effect variant. */
+export function generateEnzymeKineticsVariant(seed: number): Question {
+  const competitive = (seed % 2) === 0;
+  const correct = competitive ? 'Vmax 不變、Km 增大' : 'Vmax 下降、Km 不變';
+  const pool = ['Vmax 不變、Km 增大', 'Vmax 下降、Km 不變', 'Vmax 下降、Km 增大', 'Vmax 不變、Km 減小'];
+  const arr = seededShuffle(pool, seed + 5);
+  const letters = ['A', 'B', 'C', 'D'];
+  const options = arr.map((v, i) => ({ id: letters[i], text: v }));
+  const answer = options.find((o) => o.text === correct)!.id;
+  return {
+    id: `gen-enz-${seed}`,
+    year: 0,
+    round: 'semifinal',
+    domain: 'cell',
+    subtopic: '酶動力學',
+    difficulty: 4,
+    type: 'single',
+    stem: `${competitive ? '競爭性' : '非競爭性'}抑制劑對酶催化反應的影響，下列何者正確？`,
+    options,
+    answer: [answer],
+    explanation: competitive
+      ? '競爭性抑制劑與受質競爭活性位，可用提高受質濃度克服，故 Vmax 不變、表觀 Km 增大。'
+      : '非競爭性抑制劑結合在別處改變酶構形，無法以受質濃度克服，故 Vmax 下降、Km 不變。',
+    simple: competitive
+      ? '競爭抑制像有人跟你搶椅子：多找椅子（受質）還是能坐滿（Vmax 不變），只是要更多椅子才坐到一半（Km 變大）。'
+      : '非競爭抑制像椅子被弄壞了：再多椅子也沒用，坐得滿的人變少（Vmax 下降），但坐到一半的難度沒變（Km 不變）。',
+    concepts: ['酶動力學', 'Km', 'Vmax', competitive ? '競爭性抑制' : '非競爭性抑制'],
+    generated: true,
+  };
+}
+
+/** Surface-area-to-volume ratio variant. */
+export function generateSurfaceVolumeVariant(seed: number): Question {
+  const k = [2, 3, 4][seed % 3];
+  const correct = `變為原來的 1/${k}`;
+  const pool = [`變為原來的 1/${k}`, `變為原來的 ${k} 倍`, `變為原來的 1/${k * k}`, '維持不變'];
+  const arr = seededShuffle(pool, seed + 9);
+  const letters = ['A', 'B', 'C', 'D'];
+  const options = arr.map((v, i) => ({ id: letters[i], text: v }));
+  const answer = options.find((o) => o.text === correct)!.id;
+  return {
+    id: `gen-sv-${seed}`,
+    year: 0,
+    round: 'preliminary',
+    domain: 'cell',
+    subtopic: '細胞大小',
+    difficulty: 3,
+    type: 'single',
+    stem: `一個球形細胞半徑放大為原來的 ${k} 倍，其「表面積／體積」比值會如何變化？`,
+    options,
+    answer: [answer],
+    explanation: `表面積∝r²、體積∝r³，故表面積/體積 ∝ 1/r。半徑變 ${k} 倍，比值變為原來的 1/${k}。`,
+    simple: `東西越大，外皮相對於肚子就越小。半徑變 ${k} 倍，表面積對體積的比例就縮成 1/${k}，所以小細胞交換養分比較快。`,
+    concepts: ['細胞大小', '表面積體積比', '物質交換'],
+    generated: true,
+  };
+}
+
+const GENERATORS = [
+  generateHardyWeinbergVariant,
+  generateRecombinationVariant,
+  generateEnzymeKineticsVariant,
+  generateSurfaceVolumeVariant,
+];
+
+/** Produce a mixed set of freshly generated questions (自行生成考題). */
+export function generateQuestionSet(n: number, seed = Date.now()): Question[] {
+  const out: Question[] = [];
+  for (let i = 0; i < n; i++) {
+    const gen = GENERATORS[i % GENERATORS.length];
+    out.push(gen(seed + i * 101));
+  }
+  return out;
+}

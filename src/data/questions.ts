@@ -30,6 +30,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       '主動運輸由載體蛋白（如鈉鉀幫浦）水解 ATP 提供能量，可將分子由低濃度往高濃度搬運。簡單擴散、促進擴散與滲透皆為順濃度梯度、不耗能的被動運輸。',
+    simple:
+      '搬東西到「高的地方」要花力氣。主動運輸就像用幫浦把水往高處打，要耗電（ATP）；其他三種都是水往低處流，不用花力氣。',
     concepts: ['膜運輸', '主動運輸', 'ATP', '濃度梯度'],
     source: '初賽風格題',
   },
@@ -51,6 +53,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '競爭性抑制劑與受質競爭活性位，可藉提高受質濃度克服，故 Vmax 不變；但需要更高受質濃度才能達半飽和，表觀 Km 增大。非競爭性抑制才會降低 Vmax。',
+    simple:
+      '競爭抑制就像有人跟你搶椅子坐。多找一些椅子（受質）還是能坐滿（Vmax 不變），只是要更多椅子才坐到一半（Km 變大）。',
     concepts: ['酶動力學', 'Km', 'Vmax', '競爭性抑制'],
     source: '初賽風格題',
   },
@@ -72,6 +76,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       '電子傳遞鏈將 NADH/FADH₂ 的電子傳給 O₂，建立粒線體膜間隙的質子梯度，ATP 合成酶藉化學滲透 (chemiosmosis) 合成大量 ATP，約佔總產量的多數。糖解與檸檬酸循環僅以受質層次磷酸化產生少量 ATP。',
+    simple:
+      '細胞發電廠最會發電的是「最後一關」：把電子交給氧氣，順便把氫離子推到牆外，再讓它們衝回來推動發電機，這樣發最多電。',
     concepts: ['呼吸作用', '氧化磷酸化', '化學滲透', '電子傳遞鏈'],
     source: '複賽風格題',
   },
@@ -93,6 +99,8 @@ export const QUESTIONS: Question[] = [
     answer: ['A', 'C', 'D'],
     explanation:
       'Cyclin 濃度會隨週期週期性升降，與 CDK 結合後活化激酶；故 B 錯誤。G1/S 檢查點評估 DNA 完整性與生長狀態；M（紡錘體）檢查點確認染色體正確附著；p53 為腫瘤抑制因子，受損時誘導停滯或凋亡。',
+    simple:
+      '分裂前有好幾個檢查哨。Cyclin 像油門會忽高忽低（不是一直一樣）；p53 像警衛，看到 DNA 壞掉就喊停或叫細胞自我了結。',
     concepts: ['細胞週期', '檢查點', 'cyclin', 'p53'],
     source: '複賽風格題',
   },
@@ -114,6 +122,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '高基氏體接收來自內質網的蛋白質，進行醣基化等修飾、分類後以囊泡運送。粗糙內質網負責合成分泌性蛋白；溶體含水解酶分解物質；過氧化體分解脂肪酸與過氧化氫。',
+    simple:
+      '高基氏體像「郵局」：把蛋白質包裝好、貼上地址，再寄到對的地方。',
     concepts: ['胞器', '高基氏體', '蛋白質運輸'],
     source: '初賽風格題',
   },
@@ -135,6 +145,8 @@ export const QUESTIONS: Question[] = [
     answer: ['A'],
     explanation:
       'GPCR 活化 G 蛋白後，可經腺苷酸環化酶生成 cAMP，或經磷脂酶 C 將 PIP₂ 切成 IP₃ 與 DAG，三者皆為典型第二傳訊者，進而活化 PKA 或釋放鈣離子。',
+    simple:
+      '門鈴（受體）被按了，屋裡的小幫手（cAMP、IP₃/DAG）就跑去傳話，叫大家動起來。',
     concepts: ['訊息傳遞', 'GPCR', '第二傳訊者', 'cAMP'],
     source: '複賽風格題',
   },
@@ -158,6 +170,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       'C4 植物在葉肉細胞以 PEP 羧化酶固定 CO₂ 成四碳化合物，運至維管束鞘細胞釋放高濃度 CO₂ 供 Rubisco 使用，抑制其加氧反應（光呼吸），故高溫強光下效率較高。卡爾文循環仍需進行。',
+    simple:
+      '天氣很熱時，C4 植物先把二氧化碳「裝進小盒子」搬到深處再放出來，濃度很高，工人（Rubisco）就不會做白工，所以更會行光合作用。',
     concepts: ['光合作用', 'C4', '光呼吸', 'Rubisco'],
     source: '初賽風格題',
   },
@@ -179,6 +193,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '葉片氣孔蒸散使葉肉細胞水位下降，產生張力（負壓），藉水分子間的內聚力與對管壁的附著力，將水柱由木質部連續往上拉。根壓僅在特定情況下提供輔助動力。',
+    simple:
+      '葉子蒸發水分，就像從吸管「上面」吸，水柱被一路往上拉；水分子手牽手不放開，整條水柱就一起上去。',
     concepts: ['蒸散作用', '內聚張力學說', '木質部', '水分運輸'],
     source: '複賽風格題',
   },
@@ -200,6 +216,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       '乙烯為氣態激素，促進果實成熟、花與葉的老化及離層形成而落葉。生長素促進細胞延長與向性；細胞分裂素促進細胞分裂並延緩老化；激勃素促進莖伸長與種子萌發。',
+    simple:
+      '乙烯是一種會讓水果變熟、葉子變黃掉下來的氣體，就像「催熟魔法氣」。',
     concepts: ['植物激素', '乙烯', '果實成熟', '老化'],
     source: '初賽風格題',
   },
@@ -221,6 +239,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '實驗顯示「短日照植物」實為「長夜植物」，關鍵在於連續黑暗時間是否超過臨界值；若夜間以閃光中斷暗期，即使日短也不會開花。光敏素 (phytochrome) 偵測光暗轉換。',
+    simple:
+      '短日照植物其實在意「晚上夠不夠長」。半夜開個燈打斷黑暗，它就不開花了。',
     concepts: ['光週期', '光敏素', '開花', '臨界暗期'],
     source: '複賽風格題',
   },
@@ -244,6 +264,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '刺激達閾值時電壓閘控 Na⁺ 通道開啟，Na⁺ 大量內流使膜電位由負轉正，即去極化。隨後 Na⁺ 通道失活、K⁺ 通道開啟使 K⁺ 外流造成再極化。',
+    simple:
+      '神經像一道門。刺激夠大時，鈉離子的門打開、鈉衝進來，裡面從負電變正電（去極化）。',
     concepts: ['動作電位', '去極化', '鈉離子', '神經元'],
     source: '初賽風格題',
   },
@@ -265,6 +287,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '竇房結位於右心房，自發去極化頻率最高，為正常的起搏點。興奮經心房傳至房室結（短暫延遲），再經希氏束與普金氏纖維傳至心室肌使其收縮。',
+    simple:
+      '心臟的「節拍器」是竇房結，它自己跳最快，帶著整顆心臟一起跳。',
     concepts: ['心臟', '竇房結', '心律', '傳導系統'],
     source: '複賽風格題',
   },
@@ -286,6 +310,8 @@ export const QUESTIONS: Question[] = [
     answer: ['A', 'B', 'C'],
     explanation:
       'MHC class I 表現於幾乎所有有核細胞，呈現內生性抗原給 CTL；MHC class II 才主要表現於抗原呈現細胞，故 D 錯誤。CTL 毒殺、漿細胞分泌抗體、記憶細胞造成更強二次反應皆正確。',
+    simple:
+      '身體的軍隊：殺手 T 細胞直接殺壞細胞，B 細胞變工廠做抗體，記憶細胞記住壞蛋下次更快贏。MHC I 幾乎每個細胞都有（不是只有特種兵才有）。',
     concepts: ['適應性免疫', 'T細胞', 'B細胞', 'MHC', '記憶細胞'],
     source: '複賽風格題',
   },
@@ -307,6 +333,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '胰島 β 細胞分泌胰島素，促進細胞攝取葡萄糖並合成肝醣，使血糖下降。α 細胞分泌升糖素則升高血糖；兩者構成負回饋恆定調節。',
+    simple:
+      '血糖太高時，β 細胞放出胰島素，叫細胞把糖收進去，血糖就降下來。',
     concepts: ['內分泌', '胰島素', '血糖恆定', '胰島'],
     source: '初賽風格題',
   },
@@ -328,6 +356,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       'ADH 增加集尿管（與遠曲小管）對水的通透性，促使水通道蛋白 (aquaporin) 嵌入細胞膜，使更多水被再吸收、尿液濃縮。',
+    simple:
+      '缺水口渴時，ADH 叫腎臟的水管（集尿管）多吸一點水回來，尿就變少變濃。',
     concepts: ['ADH', '腎臟', '水分再吸收', '集尿管', '滲透調節'],
     source: '複賽風格題',
   },
@@ -351,6 +381,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '銘印發生於發育早期的關鍵期，動物對特定刺激（通常為親代）形成快速且不易逆轉的依附，Lorenz 的雁鵝實驗為經典案例。',
+    simple:
+      '剛出生的小鴨會把第一個看到、會動的東西當媽媽跟著走，這叫銘印。',
     concepts: ['行為', '銘印', '關鍵期', '學習'],
     source: '初賽風格題',
   },
@@ -372,6 +404,8 @@ export const QUESTIONS: Question[] = [
     answer: ['A'],
     explanation:
       '漢彌爾頓法則 rB > C：當親緣係數 r 乘以受益者得到的適存度利益 B 大於行為者付出的代價 C 時，利他基因可經親緣選擇 (kin selection) 而擴散。',
+    simple:
+      '幫親人划不划算？看「血緣多近(r) × 他得到的好處(B)」有沒有大於「你的損失(C)」。划算(rB>C)，這種基因就會留下來。',
     concepts: ['利他行為', '親緣選擇', '漢彌爾頓法則', '社會生物學'],
     source: '複賽風格題',
   },
@@ -395,6 +429,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       'Aa × Aa 子代基因型為 1 AA : 2 Aa : 1 aa，表現型上顯性 (AA+Aa) 對隱性 (aa) 為 3:1。1:2:1 為基因型比例。',
+    simple:
+      '兩個 Aa 生小孩，顯性 : 隱性 = 3 : 1（四個裡有三個會表現顯性）。',
     concepts: ['孟德爾遺傳', '單性狀雜交', '表現型比例'],
     source: '初賽風格題',
   },
@@ -416,6 +452,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       'q² = 0.16 → q = 0.4，p = 0.6。異型合子頻率 2pq = 2 × 0.6 × 0.4 = 0.48。',
+    simple:
+      '隱性的人佔 0.16，開根號 q=0.4、p=0.6；混血(Aa)= 2×0.6×0.4 = 0.48。',
     concepts: ['族群遺傳', '哈溫定律', '基因頻率', '異型合子'],
     source: '複賽風格題',
   },
@@ -437,6 +475,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '重組率（重組型比例）即等於圖距 (centimorgan, cM)。重組型佔 12% → 圖距 ≈ 12 cM。圖距越大表示兩基因相距越遠、重組機率越高。',
+    simple:
+      '兩個基因離越遠，越容易被「剪開重組」。重組 12% 就代表相距約 12 單位(cM)。',
     concepts: ['連鎖', '重組率', '圖距', '測交'],
     source: '複賽風格題',
   },
@@ -458,6 +498,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       '遺傳漂變為隨機抽樣誤差造成的基因頻率改變，在小族群中效應特別顯著（如瓶頸效應、創始者效應），與適存度無關。天擇則為非隨機的差別存活與繁殖。',
+    simple:
+      '小村莊裡，只是運氣好壞就讓某個基因變多或變少，跟厲不厲害無關，這叫遺傳漂變。',
     concepts: ['演化', '遺傳漂變', '族群', '基因頻率'],
     source: '初賽風格題',
   },
@@ -479,6 +521,8 @@ export const QUESTIONS: Question[] = [
     answer: ['A', 'B', 'C'],
     explanation:
       'miRNA 多藉與 mRNA 互補結合促進其降解或抑制轉譯，降低表現，故 D 錯誤。增強子可遠距調控、選擇性剪接增加蛋白多樣性、DNA 甲基化（尤其啟動子 CpG island）抑制表現皆正確。',
+    simple:
+      '增強子像「遠端遙控器」能開基因；一個基因能剪接出很多種蛋白；甲基化像貼封條把基因關起來；miRNA 則是把訊息撕掉讓它不要做（不是幫它）。',
     concepts: ['基因表現調控', '增強子', '選擇性剪接', 'DNA甲基化', 'miRNA'],
     source: '複賽風格題',
   },
@@ -502,6 +546,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '邏輯斯型成長中，密度接近 K 時資源受限、種內競爭加劇，出生率下降、死亡率上升，族群成長率趨近於零，曲線趨於平緩（S 形）。',
+    simple:
+      '人太多、食物不夠時，數量成長會慢下來幾乎停住（接近環境能養的上限 K）。',
     concepts: ['族群成長', '邏輯斯型', '負載量', '密度制約'],
     source: '初賽風格題',
   },
@@ -523,6 +569,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '依十分之一法則 (10% rule)，由於呼吸耗損、未被攝食或未被消化等，每上升一個營養階僅約 10% 能量被傳遞，故食物鏈長度受限、頂級消費者數量稀少。',
+    simple:
+      '吃東西時能量大多被用掉或浪費，只有約十分之一傳給上一層，所以大老虎很少。',
     concepts: ['能量流', '營養階', '十分之一法則', '生態系'],
     source: '複賽風格題',
   },
@@ -544,6 +592,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '片利共生為 +/0 關係，一方得利、另一方無明顯損益，如附生植物與大樹、䲟魚附著於鯊魚。互利共生為 +/+，寄生為 +/−，競爭為 −/−。',
+    simple:
+      '一方得好處、另一方沒差，像小植物長在大樹上搭便車，大樹也沒損失。',
     concepts: ['物種交互作用', '片利共生', '共生'],
     source: '初賽風格題',
   },
@@ -567,6 +617,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '古菌雖為原核細胞，但其轉錄、轉譯機制與膜脂組成與真核生物較相似，分子親緣上與真核域形成姊妹群，與細菌域分立。',
+    simple:
+      '古菌雖然是小小的原核生物，但它「內部做事的方法」比較像我們真核生物，算是親戚。',
     concepts: ['三域系統', '古菌', '親緣關係', 'Woese'],
     source: '初賽風格題',
   },
@@ -588,6 +640,8 @@ export const QUESTIONS: Question[] = [
     answer: ['A'],
     explanation:
       '單系群（分支群, clade）涵蓋共同祖先及其全部後代；並系群缺少部分後代（如傳統「爬蟲類」不含鳥類）；多系群成員源自不同祖先；外群用於樹根定位比較。',
+    simple:
+      '單系群＝一個老祖宗加上他「全部」的子子孫孫，一個都不能少。',
     concepts: ['親緣樹', '單系群', '分支分類', 'clade'],
     source: '複賽風格題',
   },
@@ -609,6 +663,8 @@ export const QUESTIONS: Question[] = [
     answer: ['B'],
     explanation:
       '錯誤。多數酶為蛋白質，但部分 RNA 也具催化能力，稱為核酶 (ribozyme)，例如核糖體中催化胜肽鍵形成的 rRNA。',
+    simple:
+      '不是所有酶都是蛋白質！有些 RNA 也能當酶（核酶），像核糖體裡幫忙黏胺基酸的就是。',
     concepts: ['酶', '核酶', '生物大分子'],
     source: '初賽風格題',
   },
@@ -630,6 +686,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       '反轉錄酶以 RNA 為模板合成互補 DNA (cDNA)，見於反轉錄病毒（如 HIV）與端粒酶。此為中心法則的特例（RNA→DNA）。',
+    simple:
+      '平常是 DNA→RNA，但反轉錄酶會「倒帶」，把 RNA 抄回成 DNA。HIV 就會這招。',
     concepts: ['中心法則', '反轉錄', '反轉錄酶'],
     source: '初賽風格題',
   },
@@ -651,6 +709,8 @@ export const QUESTIONS: Question[] = [
     answer: ['C'],
     explanation:
       '約 70% 的 CO₂ 在紅血球內經碳酸酐酶催化形成碳酸，解離為 HCO₃⁻ 運送於血漿中；約 23% 與血紅素結合成胺基甲醯血紅素，約 7% 直接溶解。',
+    simple:
+      '血液搬二氧化碳，大部分（約七成）是變成「碳酸氫根」溶在血漿裡載走的。',
     concepts: ['呼吸', '二氧化碳運輸', '碳酸氫根', '碳酸酐酶'],
     source: '初賽風格題',
   },

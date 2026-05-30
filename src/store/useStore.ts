@@ -24,9 +24,9 @@ interface StoreState {
 }
 
 const defaultSettings: Settings = {
-  // Sensible upcoming defaults; fully editable in 設定.
-  preliminaryDate: '2027-03-13T09:00:00',
-  semifinalDate: '2027-04-17T09:00:00',
+  // 初賽：11 月入門選拔；複賽：隔年 2 月。可於設定調整。
+  preliminaryDate: '2026-11-14T09:00:00',
+  semifinalDate: '2027-02-07T09:00:00',
   masteryThreshold: 70,
 };
 

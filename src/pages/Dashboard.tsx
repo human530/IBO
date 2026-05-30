@@ -38,8 +38,8 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <CountdownCard title="初賽倒數" emoji="①" targetIso={settings.preliminaryDate} />
-        <CountdownCard title="複賽倒數" emoji="②" targetIso={settings.semifinalDate} />
+        <CountdownCard title="初賽倒數（11月・入門選拔）" emoji="①" targetIso={settings.preliminaryDate} />
+        <CountdownCard title="複賽倒數（2月）" emoji="②" targetIso={settings.semifinalDate} />
       </div>
 
       {/* Readiness */}

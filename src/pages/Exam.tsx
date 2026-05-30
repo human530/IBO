@@ -24,7 +24,7 @@ import { QUESTIONS } from '../data/questions';
 import {
   buildAdaptiveExam,
   buildExam,
-  generateHardyWeinbergVariant,
+  generateQuestionSet,
 } from '../lib/generator';
 import { isCorrect } from '../lib/grade';
 import {
@@ -39,6 +39,7 @@ import QuestionView from '../components/QuestionView';
 import DomainBadge from '../components/DomainBadge';
 import HandwritingCanvas from '../components/HandwritingCanvas';
 import ExamTimer from '../components/ExamTimer';
+import PrintablePaper from '../components/PrintablePaper';
 
 type Phase = 'config' | 'running' | 'result';
 
@@ -80,6 +81,14 @@ export default function Exam() {
   const [images, setImages] = useState<Record<string, string>>({});
   const [revealedMap, setRevealedMap] = useState<Record<string, boolean>>({});
   const [startTimes, setStartTimes] = useState<Record<string, number>>({});
+  const [paper, setPaper] = useState<{ title: string; questions: Question[] } | null>(null);
+
+  function downloadPdf(title: string, qs: Question[]) {
+    if (qs.length === 0) return;
+    setPaper({ title, questions: qs });
+    // let the printable paper mount before opening the print dialog
+    setTimeout(() => window.print(), 120);
+  }
 
   function toggleDomain(d: DomainId) {
     setSelectedDomains((prev) =>
@@ -93,8 +102,8 @@ export default function Exam() {
       mode === 'adaptive'
         ? buildAdaptiveExam(QUESTIONS, attempts, config)
         : buildExam(QUESTIONS, config);
-    if (includeVariants && round === 'semifinal') {
-      qs = [...qs, generateHardyWeinbergVariant(Date.now())];
+    if (includeVariants) {
+      qs = [...qs, ...generateQuestionSet(2, Date.now())];
     }
     if (qs.length === 0) return;
 
@@ -312,22 +321,35 @@ export default function Exam() {
             />
           </div>
 
-          {round === 'semifinal' && (
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={includeVariants}
-                onChange={(e) => setIncludeVariants(e.target.checked)}
-                className="accent-brand-500"
-              />
-              加入自動生成變體題 (哈溫定律計算)
-            </label>
-          )}
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={includeVariants}
+              onChange={(e) => setIncludeVariants(e.target.checked)}
+              className="accent-brand-500"
+            />
+            加入自動生成題（哈溫、重組、酶動力學、表面積比，每次都不一樣）
+          </label>
 
           <button className="btn-primary" onClick={start}>
             開始作答
           </button>
+          <button
+            className="btn-ghost"
+            onClick={() => {
+              const base = buildExam(QUESTIONS, { round, domains: selectedDomains, count });
+              const qs = includeVariants ? [...base, ...generateQuestionSet(2, Date.now())] : base;
+              downloadPdf(
+                `生物奧林匹亞${round === 'preliminary' ? '初賽' : '複賽'}模擬考卷`,
+                qs,
+              );
+            }}
+          >
+            📄 生成考卷並下載 PDF（含解析）
+          </button>
         </div>
+
+        {paper && <PrintablePaper title={paper.title} questions={paper.questions} />}
       </div>
     );
   }
@@ -551,14 +573,22 @@ export default function Exam() {
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-3">
         <button className="btn-primary" onClick={() => setPhase('config')}>
           再來一次
         </button>
+        <button
+          className="btn-ghost"
+          onClick={() => downloadPdf('生物奧林匹亞模擬考卷（本次作答）', questions)}
+        >
+          📄 下載 PDF
+        </button>
         <a href="#/performance" className="btn-ghost">
-          查看完整成績分析
+          完整成績分析
         </a>
       </div>
+
+      {paper && <PrintablePaper title={paper.title} questions={paper.questions} />}
     </div>
   );
 }

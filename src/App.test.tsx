@@ -17,8 +17,8 @@ describe('App', () => {
     renderApp();
     expect(screen.getByText(/準備儀表板/)).toBeInTheDocument();
     // countdown cards present
-    expect(screen.getByText('初賽倒數')).toBeInTheDocument();
-    expect(screen.getByText('複賽倒數')).toBeInTheDocument();
+    expect(screen.getByText(/初賽倒數/)).toBeInTheDocument();
+    expect(screen.getByText(/複賽倒數/)).toBeInTheDocument();
   });
 
   it('navigates to the exam config and starts a session', async () => {
@@ -36,7 +36,7 @@ describe('App', () => {
     const optionA = screen.getAllByText('A')[0];
     await user.click(optionA);
     await user.click(screen.getByText('送出答案'));
-    await waitFor(() => expect(screen.getByText('詳解')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/詳解/)).toBeInTheDocument());
   });
 
   it('shows the handwriting canvas when handwriting mode is selected', async () => {

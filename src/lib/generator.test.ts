@@ -129,3 +129,46 @@ describe('generateHardyWeinbergVariant', () => {
     }
   });
 });
+
+import {
+  generateQuestionSet,
+  generateRecombinationVariant,
+  generateEnzymeKineticsVariant,
+  generateSurfaceVolumeVariant,
+} from './generator';
+
+describe('extra generators', () => {
+  it('recombination variant is solvable and self-consistent', () => {
+    for (const seed of [1, 2, 7, 100]) {
+      const q = generateRecombinationVariant(seed);
+      expect(q.answer).toHaveLength(1);
+      expect(q.options.map((o) => o.id)).toContain(q.answer[0]);
+      expect(isCorrect(q, q.answer)).toBe(true);
+      expect(q.simple).toBeTruthy();
+    }
+  });
+
+  it('enzyme kinetics variant has the correct Km/Vmax answer', () => {
+    const comp = generateEnzymeKineticsVariant(2); // even => competitive
+    const compAns = comp.options.find((o) => o.id === comp.answer[0])!.text;
+    expect(compAns).toBe('Vmax 不變、Km 增大');
+    const non = generateEnzymeKineticsVariant(3); // odd => non-competitive
+    const nonAns = non.options.find((o) => o.id === non.answer[0])!.text;
+    expect(nonAns).toBe('Vmax 下降、Km 不變');
+  });
+
+  it('surface/volume variant is solvable', () => {
+    for (const seed of [0, 1, 2, 5]) {
+      const q = generateSurfaceVolumeVariant(seed);
+      expect(isCorrect(q, q.answer)).toBe(true);
+      expect(new Set(q.options.map((o) => o.text)).size).toBe(4);
+    }
+  });
+
+  it('generateQuestionSet returns the requested count of generated questions', () => {
+    const set = generateQuestionSet(6, 42);
+    expect(set).toHaveLength(6);
+    expect(set.every((q) => q.generated)).toBe(true);
+    expect(new Set(set.map((q) => q.id)).size).toBe(6);
+  });
+});
