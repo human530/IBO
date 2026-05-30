@@ -50,13 +50,21 @@ export interface AttemptRecord {
   round: Round;
   difficulty: number;
   selected: string[];
+  /** True only when the response is fully correct (set-exact). */
   correct: boolean;
+  /** Official IBO partial score for this question, 0–1. */
+  score?: number;
   /** Seconds spent on the question. */
   timeSpent: number;
   timestamp: number;
+  /** Data-URL of the handwritten answer sheet, when handwriting mode is used. */
+  answerImage?: string;
 }
 
 export type SessionMode = 'mock' | 'practice' | 'adaptive';
+
+/** How the candidate enters answers. */
+export type InputMode = 'select' | 'handwriting';
 
 export interface ExamSession {
   id: string;

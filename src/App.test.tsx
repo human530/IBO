@@ -38,4 +38,48 @@ describe('App', () => {
     await user.click(screen.getByText('送出答案'));
     await waitFor(() => expect(screen.getByText('詳解')).toBeInTheDocument());
   });
+
+  it('shows the handwriting canvas when handwriting mode is selected', async () => {
+    const user = userEvent.setup();
+    renderApp();
+    await user.click(screen.getAllByText('模擬測驗')[0]);
+    await waitFor(() => expect(screen.getByText('模擬測驗設定')).toBeInTheDocument());
+    await user.click(screen.getByText('✍️ 手寫模式'));
+    await user.click(screen.getByText('開始作答'));
+    await waitFor(() =>
+      expect(screen.getByText(/手寫作答區/)).toBeInTheDocument(),
+    );
+  });
+
+  it('completes an exam and shows official score, time and placement', async () => {
+    const user = userEvent.setup();
+    renderApp();
+    await user.click(screen.getAllByText('模擬測驗')[0]);
+    await waitFor(() => expect(screen.getByText('模擬測驗設定')).toBeInTheDocument());
+    await user.click(screen.getByText('開始作答'));
+    await waitFor(() => expect(screen.getByText(/進度 1 \//)).toBeInTheDocument());
+
+    // answer every question until the result screen appears
+    for (let i = 0; i < 25; i++) {
+      const submit = screen.queryByText('送出答案');
+      if (submit) {
+        // option letters render as standalone A–D text nodes; click the first
+        const letters = screen.getAllByText(/^[A-D]$/);
+        await user.click(letters[0]);
+        await user.click(submit);
+      }
+      const finish = screen.queryByText('完成測驗');
+      if (finish) {
+        await user.click(finish);
+        break;
+      }
+      const nextBtn = screen.queryByText('下一題');
+      if (nextBtn) await user.click(nextBtn);
+    }
+
+    await waitFor(() => expect(screen.getByText('測驗結果')).toBeInTheDocument());
+    expect(screen.getByText('官方得分率')).toBeInTheDocument();
+    expect(screen.getByText('作答時間')).toBeInTheDocument();
+    expect(screen.getByText('分數落點與模擬排名')).toBeInTheDocument();
+  });
 });

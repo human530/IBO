@@ -1,6 +1,24 @@
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import type { DomainId, ExamSession, Question, Round, SessionMode } from '../types';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import type {
+  DomainId,
+  ExamSession,
+  InputMode,
+  Question,
+  Round,
+  SessionMode,
+} from '../types';
 import { DOMAINS } from '../data/domains';
 import { QUESTIONS } from '../data/questions';
 import {
@@ -9,11 +27,30 @@ import {
   generateHardyWeinbergVariant,
 } from '../lib/generator';
 import { isCorrect } from '../lib/grade';
+import {
+  MEDAL_LABEL,
+  cohortDistribution,
+  estimatePlacement,
+  scoreQuestion,
+} from '../lib/iboScoring';
+import { attemptScore, formatDuration, sessionTotalTime } from '../lib/scoring';
 import { useStore } from '../store/useStore';
 import QuestionView from '../components/QuestionView';
 import DomainBadge from '../components/DomainBadge';
+import HandwritingCanvas from '../components/HandwritingCanvas';
+import ExamTimer from '../components/ExamTimer';
 
 type Phase = 'config' | 'running' | 'result';
+
+/** Seconds allowed per question when the timed mode is on. */
+const PER_QUESTION_SEC: Record<Round, number> = { preliminary: 90, semifinal: 120 };
+
+const MEDAL_COLOR: Record<string, string> = {
+  gold: '#fbbf24',
+  silver: '#cbd5e1',
+  bronze: '#d97706',
+  none: '#64748b',
+};
 
 export default function Exam() {
   const [params] = useSearchParams();
@@ -28,14 +65,19 @@ export default function Exam() {
   const [phase, setPhase] = useState<Phase>('config');
   const [round, setRound] = useState<Round>('preliminary');
   const [mode, setMode] = useState<SessionMode>(initialAdaptive ? 'adaptive' : 'mock');
+  const [inputMode, setInputMode] = useState<InputMode>('select');
+  const [timed, setTimed] = useState(true);
   const [selectedDomains, setSelectedDomains] = useState<DomainId[]>([]);
   const [count, setCount] = useState(8);
   const [includeVariants, setIncludeVariants] = useState(false);
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [sessionId, setSessionId] = useState('');
+  const [durationSec, setDurationSec] = useState(0);
+  const [startedAt, setStartedAt] = useState(0);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
+  const [images, setImages] = useState<Record<string, string>>({});
   const [revealedMap, setRevealedMap] = useState<Record<string, boolean>>({});
   const [startTimes, setStartTimes] = useState<Record<string, number>>({});
 
@@ -56,7 +98,9 @@ export default function Exam() {
     }
     if (qs.length === 0) return;
 
+    const dur = timed ? qs.length * PER_QUESTION_SEC[round] : 0;
     const id = `sess-${Date.now()}`;
+    const now = Date.now();
     const session: ExamSession = {
       id,
       mode,
@@ -64,16 +108,19 @@ export default function Exam() {
       domains: selectedDomains.length ? selectedDomains : DOMAINS.map((d) => d.id),
       questionIds: qs.map((q) => q.id),
       attempts: [],
-      startedAt: Date.now(),
-      durationSec: 0,
+      startedAt: now,
+      durationSec: dur,
     };
     addSession(session);
     setSessionId(id);
     setQuestions(qs);
+    setDurationSec(dur);
+    setStartedAt(now);
     setCurrent(0);
     setAnswers({});
+    setImages({});
     setRevealedMap({});
-    setStartTimes({ [qs[0].id]: Date.now() });
+    setStartTimes({ [qs[0].id]: now });
     setPhase('running');
   }
 
@@ -95,22 +142,29 @@ export default function Exam() {
     });
   }
 
+  function gradeAndRecord(question: Question, selected: string[]) {
+    const timeSpent = Math.round(
+      (Date.now() - (startTimes[question.id] ?? Date.now())) / 1000,
+    );
+    recordAttempt(sessionId, {
+      questionId: question.id,
+      domain: question.domain,
+      round: question.round,
+      difficulty: question.difficulty,
+      selected,
+      correct: isCorrect(question, selected),
+      score: scoreQuestion(question, selected),
+      timeSpent,
+      timestamp: Date.now(),
+      answerImage: images[question.id],
+    });
+  }
+
   function submitAnswer() {
     if (!q) return;
     const selected = answers[q.id] ?? [];
     if (selected.length === 0) return;
-    const correct = isCorrect(q, selected);
-    const timeSpent = Math.round((Date.now() - (startTimes[q.id] ?? Date.now())) / 1000);
-    recordAttempt(sessionId, {
-      questionId: q.id,
-      domain: q.domain,
-      round: q.round,
-      difficulty: q.difficulty,
-      selected,
-      correct,
-      timeSpent,
-      timestamp: Date.now(),
-    });
+    gradeAndRecord(q, selected);
     setRevealedMap((prev) => ({ ...prev, [q.id]: true }));
   }
 
@@ -125,13 +179,26 @@ export default function Exam() {
     setStartTimes((prev) => ({ ...prev, [questions[nextIdx].id]: Date.now() }));
   }
 
+  /** Time ran out: grade every not-yet-graded question and finish. */
+  function finalizeOnExpire() {
+    for (const question of questions) {
+      if (!revealedMap[question.id]) {
+        gradeAndRecord(question, answers[question.id] ?? []);
+      }
+    }
+    completeSession(sessionId);
+    setPhase('result');
+  }
+
   // ─────────────────────────── Config phase ───────────────────────────
   if (phase === 'config') {
     return (
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-2xl font-bold">模擬測驗設定</h1>
-          <p className="text-sm text-slate-400">依初賽／複賽情境配題，作答後即時解析。</p>
+          <p className="text-sm text-slate-400">
+            依初賽／複賽情境配題，採用生物奧林匹亞官方計分（部分給分），作答後即時解析並分析分數落點。
+          </p>
         </div>
 
         <div className="card flex flex-col gap-5">
@@ -174,6 +241,44 @@ export default function Exam() {
           </div>
 
           <div>
+            <div className="mb-2 text-sm font-medium">作答模式</div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => setInputMode('select')}
+                className={inputMode === 'select' ? 'btn-primary' : 'btn-ghost'}
+              >
+                🖱️ 點選模式
+              </button>
+              <button
+                onClick={() => setInputMode('handwriting')}
+                className={inputMode === 'handwriting' ? 'btn-primary' : 'btn-ghost'}
+              >
+                ✍️ 手寫模式
+              </button>
+            </div>
+            {inputMode === 'handwriting' && (
+              <p className="mt-2 text-xs text-slate-400">
+                手寫模式提供作答畫布（像平板寫考卷），仍以官方算法依你點選的最終選項計分。
+              </p>
+            )}
+          </div>
+
+          <label className="flex items-center justify-between text-sm">
+            <span className="font-medium">計時模式</span>
+            <input
+              type="checkbox"
+              checked={timed}
+              onChange={(e) => setTimed(e.target.checked)}
+              className="h-5 w-5 accent-brand-500"
+            />
+          </label>
+          {timed && (
+            <p className="-mt-3 text-xs text-slate-400">
+              每題 {PER_QUESTION_SEC[round]} 秒，共約 {Math.round((count * PER_QUESTION_SEC[round]) / 60)} 分鐘，時間到自動交卷。
+            </p>
+          )}
+
+          <div>
             <div className="mb-2 text-sm font-medium">
               領域 <span className="text-slate-500">(不選＝全部，依官方權重配題)</span>
             </div>
@@ -185,9 +290,7 @@ export default function Exam() {
                   className="pill border"
                   style={{
                     borderColor: d.color,
-                    backgroundColor: selectedDomains.includes(d.id)
-                      ? d.color
-                      : 'transparent',
+                    backgroundColor: selectedDomains.includes(d.id) ? d.color : 'transparent',
                     color: selectedDomains.includes(d.id) ? '#0b1f1a' : d.color,
                   }}
                 >
@@ -240,7 +343,10 @@ export default function Exam() {
           <span className="text-slate-400">
             進度 {current + 1} / {questions.length}
           </span>
-          <span className="text-slate-400">已作答 {answeredCount}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-slate-400">已作答 {answeredCount}</span>
+            <ExamTimer startedAt={startedAt} durationSec={durationSec} onExpire={finalizeOnExpire} />
+          </div>
         </div>
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-700">
           <div
@@ -248,6 +354,15 @@ export default function Exam() {
             style={{ width: `${((current + 1) / questions.length) * 100}%` }}
           />
         </div>
+
+        {inputMode === 'handwriting' && (
+          <HandwritingCanvas
+            questionId={q.id}
+            initial={images[q.id]}
+            disabled={revealed}
+            onChange={(url) => setImages((prev) => ({ ...prev, [q.id]: url }))}
+          />
+        )}
 
         <QuestionView
           question={q}
@@ -278,38 +393,144 @@ export default function Exam() {
 
   // ─────────────────────────── Result phase ───────────────────────────
   const session = sessions.find((s) => s.id === sessionId);
-  const correctCount = session?.attempts.filter((a) => a.correct).length ?? 0;
-  const totalAnswered = session?.attempts.length ?? 0;
-  const acc = totalAnswered ? Math.round((correctCount / totalAnswered) * 100) : 0;
+  const sessAttempts = session?.attempts ?? [];
+  const rawScore = sessAttempts.reduce((s, a) => s + attemptScore(a), 0);
+  const maxScore = sessAttempts.length || 1;
+  const percentage = Math.round((rawScore / maxScore) * 1000) / 10;
+  const fullyCorrect = sessAttempts.filter((a) => a.correct).length;
+  const totalTime = session ? sessionTotalTime(session) : 0;
+  const placement = estimatePlacement(percentage, round);
+  const medalColor = MEDAL_COLOR[placement.medal];
+
+  const dist = cohortDistribution(round).map((d) => ({
+    bin: `${d.bin}`,
+    人數: d.count,
+    isUser: percentage >= d.bin && percentage < d.bin + 5,
+  }));
 
   // per-domain breakdown for this session
-  const byDomain = new Map<DomainId, { c: number; t: number }>();
-  for (const a of session?.attempts ?? []) {
-    const e = byDomain.get(a.domain) ?? { c: 0, t: 0 };
+  const byDomain = new Map<DomainId, { score: number; t: number }>();
+  for (const a of sessAttempts) {
+    const e = byDomain.get(a.domain) ?? { score: 0, t: 0 };
     e.t += 1;
-    if (a.correct) e.c += 1;
+    e.score += attemptScore(a);
     byDomain.set(a.domain, e);
   }
 
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-2xl font-bold">測驗結果</h1>
-      <div className="card text-center">
-        <div className="text-sm text-slate-400">正確率</div>
-        <div
-          className={`text-6xl font-bold tabular-nums ${
-            acc >= 70 ? 'text-brand-400' : acc >= 50 ? 'text-amber-400' : 'text-rose-400'
-          }`}
-        >
-          {acc}%
+
+      {/* Official score + time */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="card text-center">
+          <div className="text-sm text-slate-400">官方得分率</div>
+          <div
+            className={`text-5xl font-bold tabular-nums ${
+              percentage >= 70 ? 'text-brand-400' : percentage >= 50 ? 'text-amber-400' : 'text-rose-400'
+            }`}
+          >
+            {percentage}%
+          </div>
+          <div className="text-xs text-slate-400">
+            得分 {rawScore.toFixed(2)} / {maxScore}（全對 {fullyCorrect} 題）
+          </div>
         </div>
-        <div className="text-sm text-slate-400">
-          答對 {correctCount} / {totalAnswered} 題
+        <div className="card text-center">
+          <div className="text-sm text-slate-400">作答時間</div>
+          <div className="text-5xl font-bold tabular-nums text-slate-100">
+            {formatDuration(totalTime)}
+          </div>
+          <div className="text-xs text-slate-400">
+            平均 {sessAttempts.length ? Math.round(totalTime / sessAttempts.length) : 0} 秒 / 題
+          </div>
+        </div>
+        <div className="card text-center">
+          <div className="text-sm text-slate-400">模擬獎牌</div>
+          <div className="text-5xl font-bold" style={{ color: medalColor }}>
+            {placement.medal === 'gold'
+              ? '🥇'
+              : placement.medal === 'silver'
+                ? '🥈'
+                : placement.medal === 'bronze'
+                  ? '🥉'
+                  : '—'}
+          </div>
+          <div className="text-xs" style={{ color: medalColor }}>
+            {MEDAL_LABEL[placement.medal]}
+          </div>
         </div>
       </div>
 
+      {/* 分數落點 / 排名 */}
       <div className="card">
-        <h3 className="mb-3 font-semibold">本次各領域表現</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold">分數落點與模擬排名</h3>
+          <span
+            className="pill"
+            style={{
+              backgroundColor: placement.reachesFrontRunner ? '#10b98122' : '#f59e0b22',
+              color: placement.reachesFrontRunner ? '#34d399' : '#f59e0b',
+            }}
+          >
+            {placement.label}
+          </span>
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-3 text-center">
+          <div>
+            <div className="text-2xl font-bold tabular-nums text-brand-400">
+              {placement.percentile}%
+            </div>
+            <div className="text-xs text-slate-400">百分位 (PR)</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold tabular-nums text-slate-100">
+              {placement.rank}
+            </div>
+            <div className="text-xs text-slate-400">
+              模擬排名 / {placement.cohortSize} 人
+            </div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold tabular-nums text-slate-100">
+              {Math.round(placement.topFraction * 100)}%
+            </div>
+            <div className="text-xs text-slate-400">勝過你的比例</div>
+          </div>
+        </div>
+
+        <div className="mt-5 h-44 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={dist}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <XAxis dataKey="bin" stroke="#94a3b8" fontSize={10} interval={1} />
+              <YAxis stroke="#94a3b8" fontSize={10} allowDecimals={false} />
+              <Tooltip
+                contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 12 }}
+                labelFormatter={(l) => `分數 ${l}–${Number(l) + 5}%`}
+              />
+              <ReferenceLine
+                x={`${Math.min(95, Math.floor(percentage / 5) * 5)}`}
+                stroke="#fbbf24"
+                strokeWidth={2}
+                label={{ value: '你', fill: '#fbbf24', fontSize: 11, position: 'top' }}
+              />
+              <Bar dataKey="人數">
+                {dist.map((d, i) => (
+                  <Cell key={i} fill={d.isUser ? '#fbbf24' : '#64748b'} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <p className="mt-1 text-center text-xs text-slate-500">
+          落點以該階段參賽者成績分布推估（金牌前 10%、銀牌前 30%、銅牌前 60%）。
+        </p>
+      </div>
+
+      {/* per-domain */}
+      <div className="card">
+        <h3 className="mb-3 font-semibold">本次各領域表現（官方部分給分）</h3>
         <div className="flex flex-col gap-2">
           {[...byDomain.entries()].map(([d, v]) => (
             <div key={d} className="flex items-center gap-3 text-sm">
@@ -319,11 +540,11 @@ export default function Exam() {
               <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-700">
                 <div
                   className="h-full rounded-full bg-brand-500"
-                  style={{ width: `${(v.c / v.t) * 100}%` }}
+                  style={{ width: `${(v.score / v.t) * 100}%` }}
                 />
               </div>
-              <span className="w-12 text-right text-slate-400">
-                {v.c}/{v.t}
+              <span className="w-16 text-right text-slate-400">
+                {v.score.toFixed(1)}/{v.t}
               </span>
             </div>
           ))}

@@ -1,6 +1,11 @@
 import type { AttemptRecord, DomainId, ExamSession, Round } from '../types';
 import { DOMAINS } from '../data/domains';
 
+/** Official partial score of an attempt (falls back to the boolean for old data). */
+export function attemptScore(a: AttemptRecord): number {
+  return a.score ?? (a.correct ? 1 : 0);
+}
+
 export interface DomainStat {
   domain: DomainId;
   attempted: number;
@@ -27,17 +32,18 @@ export function computeDomainStats(attempts: AttemptRecord[]): DomainStat[] {
     }
 
     const correct = rel.filter((a) => a.correct).length;
-    const accuracy = correct / rel.length;
+    // accuracy uses the official partial score so 部分給分 reflects in mastery
+    const accuracy = rel.reduce((s, a) => s + attemptScore(a), 0) / rel.length;
 
     // recency weighting: weight grows linearly with order
     let wSum = 0;
-    let wCorrect = 0;
+    let wScore = 0;
     rel.forEach((a, i) => {
       const w = 1 + i; // newest attempts have largest index/weight
       wSum += w;
-      if (a.correct) wCorrect += w;
+      wScore += attemptScore(a) * w;
     });
-    const weightedAcc = wCorrect / wSum;
+    const weightedAcc = wScore / wSum;
 
     // confidence shrinkage: blend toward 0 when few samples
     const confidence = rel.length / (rel.length + 4);
@@ -108,6 +114,18 @@ export function scoreSession(session: ExamSession): SessionScore {
     accuracy: total ? correct / total : 0,
     round: session.round,
   };
+}
+
+/** Total seconds spent answering across a session. */
+export function sessionTotalTime(session: ExamSession): number {
+  return session.attempts.reduce((s, a) => s + a.timeSpent, 0);
+}
+
+/** Format a number of seconds as mm:ss. */
+export function formatDuration(totalSec: number): string {
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
 /** Accuracy timeline across completed sessions (for the score chart). */
