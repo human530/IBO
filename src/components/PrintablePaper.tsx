@@ -17,7 +17,7 @@ export default function PrintablePaper({ title, questions }: Props) {
     <div className="print-root">
       <h1 className="print-title">{title}</h1>
       <p className="print-sub">
-        共 {questions.length} 題 · 生物奧林匹亞模擬複習 · {new Date().toLocaleDateString('zh-TW')}
+        共 {questions.length} 題 · 闖進IBO大作戰 · {new Date().toLocaleDateString('zh-TW')}
       </p>
 
       <ol className="print-q">

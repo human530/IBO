@@ -7,7 +7,7 @@ export default function PrintableBook({ book }: { book: Textbook }) {
   return createPortal(
     <div className="print-root">
       <h1 className="print-title">{book.title}・重點摘要筆記</h1>
-      <p className="print-sub">{book.zh} · 生物奧林匹亞模擬複習（原創學習摘要）</p>
+      <p className="print-sub">{book.zh} · 闖進IBO大作戰（原創學習摘要）</p>
       {book.units.map((u) => (
         <div key={u.unit}>
           <h2 className="print-h2">{u.unit}</h2>

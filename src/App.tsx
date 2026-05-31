@@ -48,8 +48,8 @@ export default function App() {
         <div className="flex items-center gap-3 px-2 pb-6 pt-2">
           <Mascot size={44} />
           <div>
-            <div className="font-display text-lg font-bold leading-tight text-ink">生物奧林匹亞</div>
-            <div className="text-xs text-ink-soft">模擬複習・邁向國手</div>
+            <div className="font-display text-lg font-bold leading-tight text-ink">闖進IBO大作戰</div>
+            <div className="text-xs text-ink-soft">生物奧林匹亞・邁向國手</div>
           </div>
         </div>
         <nav className="flex flex-col gap-1.5">
@@ -85,7 +85,7 @@ export default function App() {
       {/* Mobile header */}
       <header className="md:hidden sticky top-0 z-10 flex items-center gap-2 border-b border-ink/10 bg-cream/85 px-4 py-3 backdrop-blur">
         <Mascot size={30} />
-        <span className="font-display font-bold text-ink">生物奧林匹亞模擬複習</span>
+        <span className="font-display font-bold text-ink">闖進IBO大作戰</span>
       </header>
 
       {/* Main content */}
