@@ -35,6 +35,7 @@ import {
   scoreQuestion,
 } from '../lib/iboScoring';
 import { attemptScore, formatDuration, sessionTotalTime } from '../lib/scoring';
+import { aiGenerateQuestion } from '../lib/ai';
 import { stageForRound, stageOutcome } from '../data/cutoffs';
 import { useStore } from '../store/useStore';
 import QuestionView from '../components/QuestionView';
@@ -87,6 +88,8 @@ export default function Exam() {
   const [revealedMap, setRevealedMap] = useState<Record<string, boolean>>({});
   const [startTimes, setStartTimes] = useState<Record<string, number>>({});
   const [paper, setPaper] = useState<{ title: string; questions: Question[] } | null>(null);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiError, setAiError] = useState('');
 
   function downloadPdf(title: string, qs: Question[]) {
     if (qs.length === 0) return;
@@ -101,23 +104,8 @@ export default function Exam() {
     );
   }
 
-  function start() {
-    const usingIbo = paperStyle === 'ibo';
-    const pool = usingIbo ? IBO_STYLE : QUESTIONS;
-    const config = {
-      round: (usingIbo ? 'semifinal' : round) as Round,
-      domains: selectedDomains,
-      count,
-    };
-    let qs =
-      mode === 'adaptive' && !usingIbo
-        ? buildAdaptiveExam(QUESTIONS, attempts, config)
-        : buildExam(pool, config);
-    if (includeVariants && !usingIbo) {
-      qs = [...qs, ...generateQuestionSet(2, Date.now())];
-    }
+  function launch(qs: Question[]) {
     if (qs.length === 0) return;
-
     const dur = timed ? qs.length * PER_QUESTION_SEC[round] : 0;
     const id = `sess-${Date.now()}`;
     const now = Date.now();
@@ -142,6 +130,47 @@ export default function Exam() {
     setRevealedMap({});
     setStartTimes({ [qs[0].id]: now });
     setPhase('running');
+  }
+
+  function start() {
+    const usingIbo = paperStyle === 'ibo';
+    const pool = usingIbo ? IBO_STYLE : QUESTIONS;
+    const config = {
+      round: (usingIbo ? 'semifinal' : round) as Round,
+      domains: selectedDomains,
+      count,
+    };
+    let qs =
+      mode === 'adaptive' && !usingIbo
+        ? buildAdaptiveExam(QUESTIONS, attempts, config)
+        : buildExam(pool, config);
+    if (includeVariants && !usingIbo) {
+      qs = [...qs, ...generateQuestionSet(2, Date.now())];
+    }
+    launch(qs);
+  }
+
+  async function startAI() {
+    setAiBusy(true);
+    setAiError('');
+    try {
+      const n = Math.min(5, count);
+      const domainPool = selectedDomains.length ? selectedDomains : DOMAINS.map((d) => d.id);
+      const reqs = Array.from({ length: n }, (_, i) =>
+        aiGenerateQuestion({
+          domain: domainPool[i % domainPool.length],
+          difficulty: round === 'semifinal' ? 4 : 3,
+          round,
+          multiple: paperStyle === 'ibo',
+        }),
+      );
+      const qs = await Promise.all(reqs);
+      launch(qs);
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : 'AI 生題失敗，請稍後再試');
+    } finally {
+      setAiBusy(false);
+    }
   }
 
   const q = questions[current];
@@ -368,6 +397,10 @@ export default function Exam() {
           <button className="btn-primary" onClick={start}>
             開始作答
           </button>
+          <button className="btn-ghost" disabled={aiBusy} onClick={startAI}>
+            {aiBusy ? '✨ AI 出題中…' : '✨ AI 生題（即時生成新題目）'}
+          </button>
+          {aiError && <p className="text-xs text-clay">{aiError}</p>}
           <button
             className="btn-ghost"
             onClick={() => {

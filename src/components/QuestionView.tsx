@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import type { Question } from '../types';
 import DomainBadge, { DifficultyDots } from './DomainBadge';
+import { aiExplain } from '../lib/ai';
 
 interface Props {
   question: Question;
@@ -12,6 +14,29 @@ interface Props {
 
 export default function QuestionView({ question, index, selected, onSelect, revealed }: Props) {
   const multi = question.type === 'multiple';
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiAsk, setAiAsk] = useState('');
+  const [aiAnswer, setAiAnswer] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+
+  async function askAI() {
+    setAiLoading(true);
+    setAiError('');
+    try {
+      const answer = await aiExplain({
+        question: question.stem,
+        options: question.options,
+        answer: question.answer,
+        userAsk: aiAsk,
+      });
+      setAiAnswer(answer);
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : 'AI 解析失敗');
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
   return (
     <div className="card">
@@ -86,6 +111,44 @@ export default function QuestionView({ question, index, selected, onSelect, reve
                 </span>
               ))}
             </div>
+          </div>
+
+          {/* AI 問老師 */}
+          <div className="rounded-2xl border-2 border-line/40 bg-white/60 p-4">
+            {!aiOpen ? (
+              <button
+                type="button"
+                onClick={() => setAiOpen(true)}
+                className="text-sm font-bold text-brand-600"
+              >
+                🤖 問 AI 老師（追問、要更深入解析）
+              </button>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <div className="text-xs font-bold text-brand-600">🤖 AI 老師</div>
+                <textarea
+                  value={aiAsk}
+                  onChange={(e) => setAiAsk(e.target.value)}
+                  placeholder="想問什麼？（留空＝請 AI 完整解析這題）"
+                  rows={2}
+                  className="field text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={askAI}
+                  disabled={aiLoading}
+                  className="btn-primary self-start px-4 py-1.5 text-sm"
+                >
+                  {aiLoading ? '思考中…' : '送出'}
+                </button>
+                {aiError && <p className="text-xs text-clay">{aiError}</p>}
+                {aiAnswer && (
+                  <p className="whitespace-pre-wrap rounded-xl bg-brand-50/60 p-3 text-sm leading-relaxed text-ink">
+                    {aiAnswer}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
