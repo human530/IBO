@@ -164,17 +164,25 @@ function ChapterBody({ note, color, bookId }: { note: ChapterNote; color: string
             {shown.map((s, i) => (
               <div
                 key={i}
-                className={`rounded-lg border-2 px-3 py-1.5 ${
+                className={`rounded-lg border-2 px-3 py-2 ${
                   s.exam ? 'border-clay/55 bg-clay/10' : 'border-line/35 bg-white/50'
                 }`}
               >
-                {s.exam && (
-                  <span className="mr-1 rounded border border-clay/60 bg-clay/15 px-1 py-0.5 text-[10px] font-bold text-clay">
-                    ⭐會考
-                  </span>
+                <div>
+                  {s.exam && (
+                    <span className="mr-1 rounded border border-clay/60 bg-clay/15 px-1 py-0.5 text-[10px] font-bold text-clay">
+                      ⭐會考
+                    </span>
+                  )}
+                  <span className="text-sm font-bold text-ink">{s.t}</span>
+                  <span className="text-sm text-ink-soft"> — {s.n}</span>
+                </div>
+                {s.teach && (
+                  <div className="mt-1.5 rounded-md border-l-4 border-clay/50 bg-[#fbf3df] px-3 py-2">
+                    <div className="mb-0.5 text-[11px] font-bold text-clay">📝 完整教學筆記</div>
+                    <p className="text-sm leading-relaxed text-ink">{s.teach}</p>
+                  </div>
                 )}
-                <span className="text-sm font-bold text-ink">{s.t}</span>
-                <span className="text-sm text-ink-soft"> — {s.n}</span>
               </div>
             ))}
           </div>

@@ -30,6 +30,7 @@ export default function PrintableBook({ book }: { book: Textbook }) {
                   <div key={'s' + i} style={{ margin: '0.5mm 0 0 8mm' }}>
                     {s.exam ? '⭐' : '・'}
                     <b>{s.t}</b>：{s.n}
+                    {s.teach && <div style={{ margin: '0.5mm 0 0 4mm', color: '#7c4a1e' }}>{s.teach}</div>}
                   </div>
                 ))}
                 {c.formulas && c.formulas.length > 0 && (
