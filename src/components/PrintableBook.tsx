@@ -28,7 +28,8 @@ export default function PrintableBook({ book }: { book: Textbook }) {
                 </ul>
                 {(BOOK_SECTIONS[book.id]?.[c.ch] ?? []).map((s, i) => (
                   <div key={'s' + i} style={{ margin: '0.5mm 0 0 8mm' }}>
-                    ・<b>{s.t}</b>：{s.n}
+                    {s.exam ? '⭐' : '・'}
+                    <b>{s.t}</b>：{s.n}
                   </div>
                 ))}
                 {c.formulas && c.formulas.length > 0 && (

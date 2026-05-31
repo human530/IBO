@@ -117,6 +117,9 @@ export default function Books() {
 
 function ChapterBody({ note, color, bookId }: { note: ChapterNote; color: string; bookId: string }) {
   const sections = BOOK_SECTIONS[bookId]?.[note.ch] ?? [];
+  const examCount = sections.filter((s) => s.exam).length;
+  const [examOnly, setExamOnly] = useState(false);
+  const shown = examOnly ? sections.filter((s) => s.exam) : sections;
   return (
     <div className="border-t-2 border-line/30 px-4 py-3">
       <div className="rounded-xl border-2 border-dashed border-brand-300 bg-brand-50/50 p-2.5">
@@ -145,12 +148,31 @@ function ChapterBody({ note, color, bookId }: { note: ChapterNote; color: string
 
       {sections.length > 0 && (
         <div className="mt-3">
-          <div className="mb-1 text-xs font-bold" style={{ color }}>
-            📑 逐節重點（{sections.length} 節）
+          <div className="mb-1.5 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold" style={{ color }}>
+              📑 逐節統整（全 {sections.length} 節 · 會考 {examCount}）
+            </span>
+            <button
+              onClick={() => setExamOnly((v) => !v)}
+              className={`pill ${examOnly ? 'bg-clay text-white' : 'text-clay'}`}
+              style={{ borderColor: '#b9573e' }}
+            >
+              {examOnly ? '顯示全部' : '只看會考 ⭐'}
+            </button>
           </div>
           <div className="flex flex-col gap-1.5">
-            {sections.map((s, i) => (
-              <div key={i} className="rounded-lg border-2 border-line/35 bg-white/50 px-3 py-1.5">
+            {shown.map((s, i) => (
+              <div
+                key={i}
+                className={`rounded-lg border-2 px-3 py-1.5 ${
+                  s.exam ? 'border-clay/55 bg-clay/10' : 'border-line/35 bg-white/50'
+                }`}
+              >
+                {s.exam && (
+                  <span className="mr-1 rounded border border-clay/60 bg-clay/15 px-1 py-0.5 text-[10px] font-bold text-clay">
+                    ⭐會考
+                  </span>
+                )}
                 <span className="text-sm font-bold text-ink">{s.t}</span>
                 <span className="text-sm text-ink-soft"> — {s.n}</span>
               </div>
