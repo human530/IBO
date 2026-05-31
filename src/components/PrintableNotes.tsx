@@ -11,7 +11,7 @@ export default function PrintableNotes({ title, notes }: Props) {
   return createPortal(
     <div className="print-root">
       <h1 className="print-title">{title}・長考重點複習筆記</h1>
-      <p className="print-sub">生物奧林匹亞模擬複習 · {new Date().toLocaleDateString('zh-TW')}</p>
+      <p className="print-sub">闖進IBO大作戰 · {new Date().toLocaleDateString('zh-TW')}</p>
       <ol className="print-q">
         {notes.map((n) => (
           <li key={n.title}>

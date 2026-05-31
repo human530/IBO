@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt'],
       manifest: {
-        name: '生物奧林匹亞模擬複習',
-        short_name: 'IBO Prep',
-        description: '生物奧林匹亞初賽／複賽多方向模擬複習與弱點分析工具',
+        name: '闖進IBO大作戰',
+        short_name: '闖進IBO',
+        description: '闖進IBO大作戰：生物奧林匹亞初賽／複賽模擬複習與弱點分析工具',
         theme_color: '#e3c25a',
         background_color: '#f5ead0',
         display: 'standalone',

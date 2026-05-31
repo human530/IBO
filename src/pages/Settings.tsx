@@ -93,7 +93,7 @@ export default function Settings() {
       </div>
 
       <p className="text-center text-xs text-ink-faint">
-        生物奧林匹亞模擬複習系統 · PWA 離線可用 · 資料不上傳雲端 🩷
+        闖進IBO大作戰 · PWA 離線可用 · 資料不上傳雲端 🩷
       </p>
     </div>
   );
