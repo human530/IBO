@@ -19,6 +19,11 @@ export interface ChapterNote {
   points: string[];
   formulas?: Formula[];
 }
+/** 逐節筆記（節標題 + 原創一句摘要），由 bookSections 提供。 */
+export interface SectionNote {
+  t: string;
+  n: string;
+}
 export interface Unit {
   unit: string;
   chapters: ChapterNote[];
