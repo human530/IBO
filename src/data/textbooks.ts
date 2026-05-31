@@ -19,12 +19,14 @@ export interface ChapterNote {
   points: string[];
   formulas?: Formula[];
 }
-/** 逐節筆記（節標題 + 原創摘要 + 是否為會考重點），由 bookSections 提供。 */
+/** 逐節筆記（節標題 + 原創摘要 + 是否會考 + 會考完整教學），由 bookSections 提供。 */
 export interface SectionNote {
   t: string;
   n: string;
   /** true = 歷屆高頻會考重點（UI 會特別標示）。 */
   exam?: boolean;
+  /** 會考節的完整教學筆記（多句詳述原理與機制；原創）。 */
+  teach?: string;
 }
 export interface Unit {
   unit: string;

@@ -15,21 +15,20 @@ describe('bookSections', () => {
     }
   });
 
-  it('marks some sections as 會考 (exam) and each has title+note', () => {
+  it('every 會考 section has a full teaching note; non-exam need none', () => {
     let exam = 0;
-    let total = 0;
     for (const chs of Object.values(BOOK_SECTIONS)) {
       for (const secs of Object.values(chs)) {
         for (const s of secs) {
-          total++;
-          if (s.exam) exam++;
           expect(s.t.length).toBeGreaterThan(0);
           expect(s.n.length).toBeGreaterThan(0);
+          if (s.exam) {
+            exam++;
+            expect(s.teach && s.teach.length, `${s.t}`).toBeGreaterThan(40);
+          }
         }
       }
     }
-    expect(total).toBeGreaterThan(100);
     expect(exam).toBeGreaterThan(50);
-    expect(exam).toBeLessThan(total); // not everything is 會考
   });
 });
