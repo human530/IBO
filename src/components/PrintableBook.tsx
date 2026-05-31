@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom';
 import type { Textbook } from '../data/textbooks';
+import { BOOK_SECTIONS } from '../data/bookSections';
 
 /** Print-optimised textbook summary (Save as PDF). Hidden on screen. */
 export default function PrintableBook({ book }: { book: Textbook }) {
@@ -25,6 +26,11 @@ export default function PrintableBook({ book }: { book: Textbook }) {
                     <li key={i}>{p}</li>
                   ))}
                 </ul>
+                {(BOOK_SECTIONS[book.id]?.[c.ch] ?? []).map((s, i) => (
+                  <div key={'s' + i} style={{ margin: '0.5mm 0 0 8mm' }}>
+                    ・<b>{s.t}</b>：{s.n}
+                  </div>
+                ))}
                 {c.formulas && c.formulas.length > 0 && (
                   <div style={{ margin: '1.5mm 0 0 6mm' }}>
                     🧮 公式：

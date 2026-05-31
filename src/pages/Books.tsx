@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TEXTBOOKS, type ChapterNote } from '../data/textbooks';
+import { BOOK_SECTIONS } from '../data/bookSections';
 import PrintableBook from '../components/PrintableBook';
 
 export default function Books() {
@@ -101,7 +102,7 @@ export default function Books() {
                     <span className="flex-1 font-display font-bold text-ink">{c.title}</span>
                     <span className="text-ink-soft">{isOpen ? '▲' : '▼'}</span>
                   </button>
-                  {isOpen && <ChapterBody note={c} color={book.color} />}
+                  {isOpen && <ChapterBody note={c} color={book.color} bookId={book.id} />}
                 </div>
               );
             })}
@@ -114,7 +115,8 @@ export default function Books() {
   );
 }
 
-function ChapterBody({ note, color }: { note: ChapterNote; color: string }) {
+function ChapterBody({ note, color, bookId }: { note: ChapterNote; color: string; bookId: string }) {
+  const sections = BOOK_SECTIONS[bookId]?.[note.ch] ?? [];
   return (
     <div className="border-t-2 border-line/30 px-4 py-3">
       <div className="rounded-xl border-2 border-dashed border-brand-300 bg-brand-50/50 p-2.5">
@@ -140,6 +142,22 @@ function ChapterBody({ note, color }: { note: ChapterNote; color: string }) {
           ))}
         </ul>
       </div>
+
+      {sections.length > 0 && (
+        <div className="mt-3">
+          <div className="mb-1 text-xs font-bold" style={{ color }}>
+            📑 逐節重點（{sections.length} 節）
+          </div>
+          <div className="flex flex-col gap-1.5">
+            {sections.map((s, i) => (
+              <div key={i} className="rounded-lg border-2 border-line/35 bg-white/50 px-3 py-1.5">
+                <span className="text-sm font-bold text-ink">{s.t}</span>
+                <span className="text-sm text-ink-soft"> — {s.n}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {note.formulas && note.formulas.length > 0 && (
         <div className="mt-3 rounded-xl border-2 border-line/45 bg-[#fbf3df] p-3">

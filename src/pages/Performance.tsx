@@ -13,7 +13,7 @@ import {
   YAxis,
 } from 'recharts';
 import { useStore } from '../store/useStore';
-import { DOMAIN_MAP } from '../data/domains';
+import { DOMAIN_MAP, DOMAINS } from '../data/domains';
 import { DomainIcon } from '../components/DomainBadge';
 import {
   computeDomainStats,
@@ -33,15 +33,37 @@ export default function Performance() {
 
   if (attempts.length === 0) {
     return (
-      <div className="flex flex-col gap-4">
-        <h1 className="font-display text-2xl font-bold text-ink">成績分析 🎯</h1>
-        <div className="card text-center text-ink-soft">
-          尚無作答紀錄。完成模擬測驗後，這裡會顯示：
-          <ul className="mx-auto mt-3 max-w-xs list-disc text-left text-sm">
-            <li>成績趨勢曲線</li>
-            <li>各領域掌握度雷達圖</li>
-            <li>弱點偵測與複習建議</li>
-          </ul>
+      <div className="flex flex-col gap-5">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-ink">成績分析 🎯</h1>
+          <p className="text-sm text-ink-soft">完成一次測驗後，這裡會出現你的個人全方位分析。</p>
+        </div>
+
+        <div className="card">
+          <h3 className="mb-3 font-display font-bold text-ink">個人領域掌握度（尚未開始）</h3>
+          <div className="flex flex-col gap-2">
+            {DOMAINS.map((d) => (
+              <div key={d.id} className="flex items-center gap-3 text-sm">
+                <span className="flex w-32 items-center gap-1" style={{ color: d.color }}>
+                  <DomainIcon domain={d.id} size={16} />
+                  {d.name}
+                </span>
+                <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-brand-50">
+                  <div className="h-full w-0 rounded-full" style={{ background: d.color }} />
+                </div>
+                <span className="w-16 text-right text-xs text-ink-faint">未練習</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="card text-center">
+          <p className="text-sm text-ink-soft">
+            做完測驗即可解鎖：成績趨勢、領域雷達圖、嚴師全方位分析（最弱考點、粗心 vs 觀念）、各關晉級門檻與名次。
+          </p>
+          <a href="#/exam" className="btn-primary mt-3 inline-flex">
+            🎯 立即做一次測驗
+          </a>
         </div>
       </div>
     );
