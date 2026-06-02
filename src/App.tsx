@@ -6,6 +6,7 @@ import DoodleIcon, { type DoodleName } from './components/DoodleIcon';
 
 // Code-split heavier routes (charts, exam runner) so the first paint stays light.
 const Exam = lazy(() => import('./pages/Exam'));
+const Drill = lazy(() => import('./pages/Drill'));
 const Bank = lazy(() => import('./pages/Bank'));
 const Notes = lazy(() => import('./pages/Notes'));
 const Books = lazy(() => import('./pages/Books'));
@@ -28,6 +29,7 @@ interface NavItem {
 const NAV: NavItem[] = [
   { to: '/', label: '首頁', icon: 'home', tint: '#e7dcbd', end: true },
   { to: '/exam', label: '模擬測驗', icon: 'exam', tint: '#e3d7b6' },
+  { to: '/drill', label: '刷題練習', icon: 'target', tint: '#ecd9b4' },
   { to: '/bank', label: '題庫', icon: 'book', tint: '#dfe6c9' },
   { to: '/notes', label: '複習筆記', icon: 'notes', tint: '#e8ddbf' },
   { to: '/books', label: '教材書庫', icon: 'shelf', tint: '#e3e6cf' },
@@ -99,6 +101,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/exam" element={<Exam />} />
+              <Route path="/drill" element={<Drill />} />
               <Route path="/bank" element={<Bank />} />
               <Route path="/notes" element={<Notes />} />
               <Route path="/books" element={<Books />} />
